@@ -1,3 +1,9 @@
 # Simple application to create all dns entries for Cloudways hosting and elastic email integration
 
-In a future version I will add a function to parse and merge SPF entries
+### Roadmap:
+
+- remove bootstrap and re-do styles
+- improve the coping of text (better UX)
+- add estimation of TTL and testing of dns
+- form validation
+- SPF combiner tool

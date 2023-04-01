@@ -1,33 +1,22 @@
-import { Table, Container, Button } from 'react-bootstrap'
+import { Container } from 'react-bootstrap'
+import data from '../data'
+import { DnsSingle } from './DnsSingle'
 
-const DnsTemplate = ({ ipAddress }) => {
-  console.log('ipaddress', ipAddress)
+
+const records = (ip) => {
+  
+  return data.map(item => <DnsSingle ip={ip} key={item.id} recordContent={item} />)
+
+}
+
+export const DnsTemplate = ({ ipAddress }) => {
+  
   return (
-      <Container>
-        <h2>WEB Traffic</h2>
-        <Table hover>
-          <thead>
-            <tr>
-              <th>Record Type:</th>
-              <th>Host / Name:</th>
-              <th>Value:</th>
-              <th>TTL</th>
-              <th></th>
-            </tr>
-          </thead>
-        <tbody>
-          <tr>
-            <td>A</td>
-            <td>A</td>
-            <td>A</td>
-            <td>A</td>
-            <td><Button>copy</Button></td>
-          </tr>
+    <Container>
+      
+       {records(ipAddress)}
 
-          </tbody>
-        </Table>
-
-      </Container>
+    </Container>
   )
 }
 
