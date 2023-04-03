@@ -9,14 +9,6 @@ export const Record = ({ recordContent, ip }) => {
     value: false,
   })
 
-  const handleHover = (targetId) => {
-    setHover({ ...hover, [targetId.split('-')[0]]: true })
-  }
-  
-  const handleLeave = (targetId) => {
-    setHover({...hover, [targetId.split('-')[0]]: false})
-  }
-
   return (
     <div className='bg-gray-100 mb-8 p-4 rounded-lg max-w-4xl' >
       <div className='flex align-middle gap-2 items-center mb-4'>
