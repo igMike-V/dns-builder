@@ -9,7 +9,7 @@ export const MainForm = () => {
   })
 
   const handleCopy = () => {
-    console.log(document.location.origin)
+    //TODO Validation
     copyContent(`${document.location.origin}/?ip=${inputs.ip}&domain=${inputs.domain}`)
   }
   const handleClick = () => {
@@ -18,7 +18,7 @@ export const MainForm = () => {
 
   const buttonStyle = (color) => {
     const shade = 400
-    return `shadow bg-${color}-${shade} hover:bg-${color}-${shade - 200} focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded`
+    return `shadow bg-gray-${shade} hover:bg-gray-${shade - 200} focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded`
   }
   
   return (
@@ -55,8 +55,8 @@ export const MainForm = () => {
           </div>
         </div>
         <div className='flex gap-2'>
-          <button className={buttonStyle('purple')} onClick={handleClick}>Show Settings</button>
-          <button className={buttonStyle('gray')} onClick={handleCopy}>Copy Link</button>
+          <button className="shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" onClick={handleClick}>Show Settings</button>
+          <button className="shadow bg-gray-400 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" onClick={handleCopy}>Copy Link</button>
         </div>
         
       </form>

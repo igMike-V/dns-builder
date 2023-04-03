@@ -38,33 +38,29 @@ export const Record = ({ recordContent, ip }) => {
       <div
         className="flex gap-3 justify-start items-center p-4 mt-5 bg-gray-400 rounded-lg cursor-pointer"
         id={`host-${id}`}
-        onMouseEnter={(e) => handleHover(e.target.id)}
-        onMouseLeave={(e) => handleLeave(e.target.id)}
         onClick={() => copyContent(hostName)}
       >
         <div className="font-normal text-white text-2xl px-3 w-20">
           Host
         </div>        
-        <div className={`${hover.host ? 'bg-teal-100' : 'bg-gray-50'} rounded-lg p-7 grow items-center` }>
+        <div className="bg-gray-50 hover:bg-teal-300 rounded-lg p-7 grow items-center peer cursor-pointer">
           <p className='break-all'>{hostName}</p>
         </div>
-        <HiOutlineClipboardCopy className={`${hover.host ? 'text-teal-600' : 'text-white'} min-w-fit`} />
+        <HiOutlineClipboardCopy onClick={() => copyContent(hostName)} className='min-w-fit  hover:text-teal-600  peer-hover:text-teal-600 peer cursor-pointer' />
       </div>
 
       <div
-        className="flex gap-3 justify-start items-center p-4 mt-5 bg-gray-400 rounded-lg cursor-pointer"
+        className="flex gap-3 justify-start items-center p-4 mt-5 bg-gray-400 rounded-lgcursor-pointer"
         id={`value-${id}`}
-        onMouseEnter={(e) => handleHover(e.target.id)}
-        onMouseLeave={(e) => handleLeave(e.target.id)}
         onClick={() => copyContent(value ? value : ip)}
       >
         <div className="font-normal text-white text-2xl px-3 w-20">
           Value
         </div>        
-        <div className={`${hover.value ? 'bg-teal-100' : 'bg-gray-50'} rounded-lg p-7 grow items-center` }>
+        <div className="bg-gray-50  hover:bg-teal-300 rounded-lg p-7 grow items-center peer cursor-pointer">
           <p className='break-all'>{value ? value : ip}</p>
         </div>
-        <HiOutlineClipboardCopy className={`${hover.value ? 'text-teal-600' : 'text-white'} min-w-fit`} />
+        <HiOutlineClipboardCopy onClick={() => copyContent(hostName)} className='min-w-fit  hover:text-teal-600  peer-hover:text-teal-600 peer cursor-pointer' />
       </div>
       
 

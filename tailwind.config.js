@@ -2,9 +2,10 @@
 const plugin = require('tailwindcss/plugin')
 
 export default {
+  mode: 'jit',
   content: [
     "./index.html",
-    "./src/**/*.{js,ts,jsx,tsx}",
+    "./src/**/*.{js,jsx}",
   ],
   theme: {
     extend: {},
