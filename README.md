@@ -1,9 +1,24 @@
-# Simple application to create all dns entries for Cloudways hosting and elastic email integration
+# DNS Record Builder
 
-### Roadmap:
+This project aims to build a simple interface for clients of hosting providers to share DNS records that need to be updated by the client.  
 
-- remove bootstrap and re-do styles
-- improve the coping of text (better UX)
+**STATUS**
+Currently in beta.  Frontend only with data stored directly in the application.  Future release will add ability to store any number of records in a database.
+
+### Future Updates:
+
+- Store date to a database
 - add estimation of TTL and testing of dns
 - form validation
-- SPF combiner tool
+- SPF builder (for clients with multiple SPF records)
+- connect Regstrar API for one-click update.
+
+### Setup and install
+
+Currently frontend only.
+install with npm install (VITE)
+
+Dependencies:
+- tailwindcss
+- postcss
+- autoprefixer
