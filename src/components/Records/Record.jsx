@@ -1,21 +1,101 @@
-import { copyContent } from '../../utilities/utilities'
+import ToolTip from '../ToolTip'
 import { HiOutlineClipboardCopy, HiClipboardCopy } from 'react-icons/hi'
-import { useState } from 'react'
+import { BsCloudSlash, BsFillCloudCheckFill } from 'react-icons/bs'
+import { useEffect, useState } from 'react'
 // Creates a single entry of a dns record
-export const Record = ({ recordContent, ip }) => {
-  const { record, type, hostName, value, ttl, description, id } = recordContent
-  const [hover, setHover] = useState({
-    host: false,
-    value: false,
-  })
 
+
+export const Record = ({ recordContent, ip, site}) => {
+  const { record, type, hostName, value, ttl, description, id, connectString } = recordContent
+  const [copyMessages, setCopyMessages] = useState({
+    host: null,
+    value: null,
+  })
+  // Status of connection 0 = not connected
+  const [connection, setConnection] = useState(0)
+  const [connectMessage, setConnectMessage] = useState(null)
+  // copies data to clipboard and sets copied message
+  const copyContent = (text, element) => {
+    navigator.clipboard.writeText(text).then(() => {
+      setCopyMessages({...copyMessages, [element]: true})
+      setTimeout(() => {
+        setCopyMessages({ ...copyMessages, [element]: false })
+      }, 2000)
+    }, (error) => {
+      console.error('could not copy', error)
+    })
+  }
+
+  useEffect(() => {
+    if (connectString) {
+      const getRecords = async (domain) => {
+        try {
+        let url = `https://dns.google.com/resolve?name=${domain}&type=A`
+        let compareString = ip
+        switch (connectString) {
+          case true:
+            url = `https://dns.google.com/resolve?name=${domain}&type=A`
+            compareString = ip
+            break
+          case 'www':
+            url = `https://dns.google.com/resolve?name=www.${domain}&type=A`
+            compareString = domain
+            break
+          default:
+            break
+        } 
+          const response = await fetch(url);
+          const data = await response.json();
+          
+          if (data.Answer) {
+            // Extract the A records from the DNS response
+            
+            const aRecords = data.Answer
+            console.log(aRecords[0])
+            const rec = aRecords[0]
+            if (rec.data.replace(/\.$/, '') === compareString) {
+              setConnection(1)
+              setConnectMessage(`${rec.name} is connected to ${rec.data} TTL:${rec.TTL}`)
+            } else {
+              setConnection(0)
+              setConnectMessage(`${rec.name} is connected to ${rec.data} TTL:${rec.TTL}`)
+            }
+          } else {
+            setConnection(-1)
+            console.log('nope')
+            throw new Error('DNS lookup failed');
+            
+          }
+        } catch (error) {
+          setConnection(-1)
+          console.log('A Record lookup error', error)
+          return null;
+        }
+      }
+      
+      getRecords(site)
+    }
+  }, [])
+  
   return (
     <div className='bg-gray-100 mb-8 p-4 rounded-lg max-w-4xl' >
       <div className='flex align-middle gap-2 items-center mb-4'>
         <h2 className='font-bold'>
           {record}
         </h2>
-        <div className='text-center bg-gray-600 hover:bg-pink-600 cursor-pointer rounded-full w-6 h-6 text-white flex justify-center'>?</div>
+        <ToolTip tip={description}>
+          <div className='text-center bg-gray-600 hover:bg-pink-600 cursor-pointer rounded-full w-6 h-6 text-white flex justify-center'>?</div>
+        </ToolTip>
+        {connectString &&
+          <div className='flex items-center gap-2'>
+            <span>Status: </span>
+            {connection > 0
+              ? <BsFillCloudCheckFill className='text-green-500 text-2xl' />
+              : <BsCloudSlash className={`${connection === -1 ? 'text-red-600' : 'text-grey-500'} text-2xl`} />
+            }
+            {connectMessage && <span className='text-green-700 text-xs'>{connectMessage}</span>}
+          </div>
+        }
       </div>
 
       <div className="flex align-middle justify-start gap-5">
@@ -28,34 +108,40 @@ export const Record = ({ recordContent, ip }) => {
       </div>
 
       <div
-        className="flex gap-3 justify-start items-center p-4 mt-5 bg-gray-400 rounded-lg cursor-pointer"
+        className="flex gap-3 justify-start items-center p-4 mt-5 bg-gray-400 rounded-lg cursor-pointer group"
         id={`host-${id}`}
-        onClick={() => copyContent(hostName)}
+        onClick={() => copyContent(hostName, 'host')}
       >
         <div className="font-normal text-white text-2xl px-3 w-20">
           Host
         </div>        
-        <div className="bg-gray-50 hover:bg-teal-300 rounded-lg p-7 grow items-center peer cursor-pointer">
-          <p className='break-all'>{hostName}</p>
+        <div className="bg-gray-50  group-hover:bg-teal-300 rounded-lg p-7 grow items-center relative">
+          <div className='opacity-0 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 width rounded-lg bg-opacity-75 bg-white px-20 py-4 align-middle my-auto mx-auto'>{copyMessages.host ? 'Copied to clipboard' : 'Copy'}</div>
+          <p className='break-all z-0'>{hostName}</p>
         </div>
-        <HiOutlineClipboardCopy onClick={() => copyContent(hostName)} className='min-w-fit  hover:text-teal-600  peer-hover:text-teal-600 peer cursor-pointer' />
+        {!copyMessages.host ?
+          <HiOutlineClipboardCopy onClick={() => copyContent(host)} className='min-w-fit group-hover:text-teal-600' />
+          :<HiClipboardCopy className='min-w-fit text-teal-600' />
+        }
       </div>
 
       <div
-        className="flex gap-3 justify-start items-center p-4 mt-5 bg-gray-400 rounded-lgcursor-pointer"
+        className="flex gap-3 justify-start items-center p-4 mt-5 bg-gray-400 rounded-lg cursor-pointer group"
         id={`value-${id}`}
-        onClick={() => copyContent(value ? value : ip)}
+        onClick={() => copyContent(value ? value : ip, 'value')}
       >
         <div className="font-normal text-white text-2xl px-3 w-20">
           Value
         </div>        
-        <div className="bg-gray-50  hover:bg-teal-300 rounded-lg p-7 grow items-center peer cursor-pointer">
-          <p className='break-all'>{value ? value : ip}</p>
+        <div className="bg-gray-50  group-hover:bg-teal-300 rounded-lg p-7 grow items-center relative">
+          <div className='opacity-0 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 width rounded-lg bg-opacity-75 bg-white px-20 py-4 align-middle my-auto mx-auto'>{copyMessages.value ? 'Copied to clipboard' : 'Copy'}</div>
+          <p className='break-all z-0'>{value ? value : ip}</p>
         </div>
-        <HiOutlineClipboardCopy onClick={() => copyContent(hostName)} className='min-w-fit  hover:text-teal-600  peer-hover:text-teal-600 peer cursor-pointer' />
+        {!copyMessages.value ?
+          <HiOutlineClipboardCopy onClick={() => copyContent(value)} className='min-w-fit group-hover:text-teal-600' />
+          :<HiClipboardCopy className='min-w-fit text-teal-600' />
+        }
       </div>
-      
-
     </div>
   )
 
