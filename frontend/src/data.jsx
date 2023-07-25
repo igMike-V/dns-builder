@@ -1,7 +1,7 @@
 const data = [
   {
     id: 0,
-    record: 'Main web traffic',
+    name: 'Main web traffic',
     description: 'This is the ip address of the server to which your domain will point',
     connectString: 'domain',
     type: 'A',
@@ -11,7 +11,7 @@ const data = [
   },
   {
     id: 1,
-    record: 'Web Traffic to www',
+    name: 'Web Traffic to www',
     description: 'This handles traffic to "www" e.g. "https://www.yourdomain.com". If your registrar allows, you can point this to the main domain, otherwise set up an A record to like the one for main web traffic',
     connectString: 'www',
     type: 'A',
@@ -21,7 +21,7 @@ const data = [
   },
   {
     id: 2,
-    record: 'SPF',
+    name: 'SPF',
     description: 'For transactional email service: if this already exists combine with existing record NOTE: to include as a custom spf when a record already exists combine by using "v=spf1" & "~all" only once e.g: v=spf1 include:_spf.record1.com include:_spf.record2.com ~all',
     connectString: false,
     type: 'TXT',
@@ -31,7 +31,7 @@ const data = [
   },
   {
     id: 3,
-    record: 'DKIM',
+    name: 'DKIM',
     description: 'DKIM sets a digital signature (header) to outgoing emails from your site, telling users that the email is authorized to be sent from your domain',
     connectString: false,
     type: 'TXT',
@@ -41,7 +41,7 @@ const data = [
   },
   {
     id: 4,
-    record: 'DMARC',
+    name: 'DMARC',
     description: 'DKIM sets a digital signature (header) to outgoing emails from your site, telling users that the email is authorized to be sent from your domain',
     connectString: false,
     type: 'TXT',
@@ -51,7 +51,7 @@ const data = [
   },
   {
     id: 5,
-    record: 'Delivery Tracking',
+    name: 'Delivery Tracking',
     description: 'Used to track delivery errors',
     connectString: false,
     type: 'CNAME',

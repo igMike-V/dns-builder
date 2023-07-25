@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 
 
 export const Record = ({ recordContent, ip, site}) => {
-  const { record, type, hostName, value, ttl, description, id, connectString } = recordContent
+  const { name, type, hostName, value, ttl, description, id, connectString } = recordContent
   const [copyMessages, setCopyMessages] = useState({
     host: null,
     value: null,
@@ -81,7 +81,7 @@ export const Record = ({ recordContent, ip, site}) => {
     <div className='bg-gray-100 mb-8 p-4 rounded-lg max-w-4xl' >
       <div className='flex align-middle gap-2 items-center mb-4'>
         <h2 className='font-bold'>
-          {record}
+          {name}
         </h2>
         <ToolTip tip={description}>
           <div className='text-center bg-gray-600 hover:bg-pink-600 cursor-pointer rounded-full w-6 h-6 text-white flex justify-center'>?</div>
