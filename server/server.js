@@ -24,7 +24,7 @@ app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
 /* Final middleware for errors */
-//app.use(ErrorHandler)
+app.use(ErrorHandler)
 
 const start = async () => {
   await connectToDatabase()

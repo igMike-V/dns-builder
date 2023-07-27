@@ -1,7 +1,7 @@
 const {SECRET} = require('../utils/config')
 const jwt = require('jsonwebtoken')
 
-const tokenExtractor = (req, res, next) => {
+const TokenExtractor = (req, res, next) => {
   const authorization = req.get('authorization')
   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
       try {
@@ -15,4 +15,4 @@ const tokenExtractor = (req, res, next) => {
   next()
 }
 
-module.exports = tokenExtractor
+module.exports = TokenExtractor
