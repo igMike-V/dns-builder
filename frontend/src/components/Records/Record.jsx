@@ -28,6 +28,8 @@ export const Record = ({ recordContent, ip, site}) => {
 
   useEffect(() => {
     if (connectString) {
+
+      //TODO this whole section will need to be replaced with a backend call to a dns server
       const getRecords = async (domain) => {
         try {
         let url = `https://dns.google.com/resolve?name=${domain}&type=A`
@@ -62,7 +64,6 @@ export const Record = ({ recordContent, ip, site}) => {
             }
           } else {
             setConnection(-1)
-            console.log('nope')
             throw new Error('DNS lookup failed');
             
           }
