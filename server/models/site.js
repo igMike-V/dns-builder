@@ -6,12 +6,17 @@ class Site extends Model {}
 Site.init({
   id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    autoIncrement: true,
     primaryKey: true,
   },
   name: {
     type: DataTypes.STRING,
     allowNull: false
+  },
+  domain: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true
   }
 }, {
   sequelize,

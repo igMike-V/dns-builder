@@ -6,7 +6,7 @@ module.exports = {
     await queryInterface.createTable('sites', {
       id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
         primaryKey: true
       },
       name: {
@@ -26,7 +26,7 @@ module.exports = {
     await queryInterface.createTable('records', {
       id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
         primaryKey: true
       },
       name: {
@@ -66,7 +66,7 @@ module.exports = {
     await queryInterface.createTable('templates', {
       id: {
         type: DataTypes.INTEGER,
-        allowNull: false,
+        autoIncrement: true,
         primaryKey: true,
       },
       name: {

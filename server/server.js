@@ -8,20 +8,16 @@ const { connectToDatabase } = require('./util/db')
 
 const ErrorHandler = require('./middleware/ErrorHandler')
 
-/* Routers */
-const {
-  homeRouter,
-  usersRouter,
-  loginRouter
- } = require('./controllers/')
+/* Import routers object from controllers/index.js */
+const Routers = require('./controllers/')
 
 app.use(bodyParser.json())
 
-
 /* Routes */
-app.use('/', homeRouter)
-app.use('/api/users', usersRouter)
-app.use('/api/login', loginRouter)
+Routers.forEach(({ endpoint, router }) => {
+  console.log(`Registering endpoint: ${endpoint}`)
+  app.use(endpoint, router)
+})
 
 /* Final middleware for errors */
 app.use(ErrorHandler)

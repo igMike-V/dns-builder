@@ -6,7 +6,7 @@ class Record extends Model {}
 Record.init({
   id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    autoIncrement: true,
     primaryKey: true
   },
   name: {

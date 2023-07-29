@@ -1,4 +1,4 @@
-const {SECRET} = require('../utils/config')
+const {SECRET} = require('../util/config')
 const jwt = require('jsonwebtoken')
 
 const TokenExtractor = (req, res, next) => {
