@@ -39,7 +39,7 @@ module.exports = {
       },
     })
   },
-  down: async (queryInterface) => {
+  down: async ({ context: queryInterface }) => {
     await queryInterface.dropTable('users')
   }
 }

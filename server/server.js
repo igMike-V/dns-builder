@@ -20,7 +20,7 @@ Routers.forEach(({ endpoint, router }) => {
 })
 
 /* Final middleware for errors */
-app.use(ErrorHandler)
+//app.use(ErrorHandler)
 
 const start = async () => {
   await connectToDatabase()

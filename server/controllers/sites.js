@@ -1,4 +1,4 @@
-const { Site } = require('../models');
+const { Site, Template, Record, TemplateRecord } = require('../models');
 const router = require('express').Router();
 
 const TokenExtractor = require('../middleware/TokenExtractor');
@@ -21,7 +21,23 @@ router.post('/', TokenExtractor, async (req, res) => {
 });
 
 router.get('/', async (_req, res) => {
-  const sites = await Site.findAll();
+  const sites = await Site.findAll({
+    attributes: {exclude: ['createdAt', 'updatedAt']},
+    include: [
+      {
+        model: Template,
+        include: { 
+          model: Record,
+          attributes: {exclude: ['createdAt', 'updatedAt']}
+        },
+        attributes: {exclude: ['createdAt', 'updatedAt']}
+      },
+      {
+        model: Record,
+        attributes: {exclude: ['createdAt', 'updatedAt']}
+      }
+  ],
+  });
   res.status(200).json(sites);
 });
 

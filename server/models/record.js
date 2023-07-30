@@ -32,6 +32,11 @@ Record.init({
   ttl: {
     type: DataTypes.INTEGER,
     allowNull: false
+  },
+  recordTypeId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {model: 'recordTypes', key: 'id'}
   }
 },{
   sequelize,
