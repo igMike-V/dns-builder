@@ -35,10 +35,7 @@ export const MainForm = () => {
   }
 
   return (
-    <div className='bg-gray-100 mb-8 p-4 rounded-lg max-w-4xl' >
-      <div className='flex align-middle gap-2 items-center mb-4'>
-        <h1 className="font-bold">Let's get your site connected.</h1>
-        </div>
+    <>
       <p>Type in your domain name and the ip address we supplied you to get DNS records required to connect to your application</p>
       <form className='w-full pt-7'>
         <div className="md:items-center mb-6">
@@ -73,7 +70,7 @@ export const MainForm = () => {
         </div>
         
       </form>
-    </div>
+    </>
   )
 }
 
