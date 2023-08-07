@@ -6,6 +6,7 @@ const RecordType = require("./recordType")
 const SiteRecord = require("./siteRecord")
 const SiteTemplate = require("./siteTemplate")
 const TemplateRecord = require("./templateRecord")
+const Session = require("./session")
 
 
 Record.belongsTo(RecordType)
@@ -19,6 +20,8 @@ Site.belongsToMany(Template, { through: SiteTemplate })
 Record.belongsToMany(Template, { through: TemplateRecord })
 Template.belongsToMany(Record, { through: TemplateRecord })
 
+Session.belongsTo(User)
+
 module.exports = { 
   User,
   Site,
@@ -27,5 +30,6 @@ module.exports = {
   RecordType,
   SiteRecord,
   SiteTemplate,
-  TemplateRecord
+  TemplateRecord,
+  Session
 } 

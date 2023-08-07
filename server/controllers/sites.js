@@ -1,9 +1,10 @@
-const { Site, Template, Record, TemplateRecord } = require('../models');
+const { Site, Template, Record } = require('../models');
 const router = require('express').Router();
 
-const TokenExtractor = require('../middleware/TokenExtractor');
+const SessionExtractor = require('../middleware/SessionExtractor');
+const AuthHandler = require('../middleware/AuthHandler');
 
-router.post('/', TokenExtractor, async (req, res) => {
+router.post('/', SessionExtractor, AuthHandler, async (req, res) => {
   const body = req.body;
 
   try {
@@ -20,7 +21,7 @@ router.post('/', TokenExtractor, async (req, res) => {
   }
 });
 
-router.get('/', async (_req, res) => {
+router.get('/', SessionExtractor, AuthHandler,  async (req, res) => {
   const sites = await Site.findAll({
     attributes: {exclude: ['createdAt', 'updatedAt']},
     include: [

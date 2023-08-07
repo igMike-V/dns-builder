@@ -8,5 +8,5 @@ module.exports = {
   DB_PASSWORD: process.env.DB_PASSWORD,
   PORT: process.env.PORT || 3000,
   NODE_ENV: process.env.NODE_ENV,
-  SECRET: process.env.SECRET
+  FRONTEND_URL: process.env.FRONTEND_URL,
 }

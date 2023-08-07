@@ -1,20 +1,32 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import authService from '../services/authService'
+import { useAuth } from './shared/AuthContext'
 
-export const LoginForm = ({token}) => {
+export const LoginForm = () => {
   const navigate = useNavigate()
+  const auth = useAuth()
 
-  useEffect(() => {
-    if(token) {
-      navigate('/')
-    }
-  }, [token])
-
-  
   const [inputs, setInputs] = useState({
     email: '',
     password: ''
   })
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    try {
+      const login = await authService.login(inputs)
+      if(login) {
+        auth.setUser(login.name)
+        auth.setIsLoggedIn(true)
+        auth.setLoading(false)
+        navigate('/sites')
+      }
+    } catch (error) {
+    }
+    
+  }
+
 
   return (
     <div className='bg-gray-100 mb-8 p-4 rounded-lg max-w-4xl' >
@@ -49,7 +61,7 @@ export const LoginForm = ({token}) => {
           </div>
         </div>
         <div className='flex gap-2'>
-          <button className="shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" >Login</button>
+          <button className="shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" onClick={(e) => handleSubmit(e)} >Login</button>
         </div>
         
       </form>

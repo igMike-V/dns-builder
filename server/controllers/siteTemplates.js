@@ -1,9 +1,9 @@
 const { SiteTemplate } = require('../models');
 const router = require('express').Router();
 
-const TokenExtractor = require('../middleware/TokenExtractor');
+const SessionExtractor = require('../middleware/SessionExtractor');
 
-router.post('/', TokenExtractor, async (req, res) => {
+router.post('/', SessionExtractor, async (req, res) => {
   const body = req.body;
 
   try {
