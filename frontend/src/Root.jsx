@@ -14,9 +14,6 @@ const Root = () => {
       if(!isLoggedIn) {
         navigate('/login')
       }
-      else {
-        navigate('/sites')
-      }
     }
   }, [isLoggedIn, loading])
 
