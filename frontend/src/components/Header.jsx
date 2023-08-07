@@ -3,7 +3,6 @@ import { useAuth } from "./shared/AuthContext"
 
 const Header = () => {
   const auth = useAuth()
-  console.log('header auth', auth)
   
   return (
       <header className='flex items-center justify-between py-2'>
