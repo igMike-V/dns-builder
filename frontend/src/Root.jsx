@@ -6,14 +6,13 @@ import { useAuth } from "./components/shared/AuthContext"
 const Root = () => {
   const navigate = useNavigate()
   const { isLoggedIn, loading } = useAuth()
+  console.log ('isLoggedIn', isLoggedIn)
+  console.log ('loading', loading)
 
   useEffect(() => {
-    if(loading) {
-      return
-    } else {
-      if(!isLoggedIn) {
-        navigate('/login')
-      }
+    if (loading) return
+    if(!isLoggedIn) {
+      navigate('/login')
     }
   }, [isLoggedIn, loading])
 
@@ -21,8 +20,7 @@ const Root = () => {
     <section className='flex flex-col '>
       <Header />
       <div className='bg-gray-100 mb-8 p-4 rounded-lg' >
-        <div className='flex align-middle gap-2 items-center mb-4'>
-          <h1 className="font-bold"></h1>
+        <div className='flex flex-col gap-2 mb-4'>
         </div>
       <Outlet />
       </div>
