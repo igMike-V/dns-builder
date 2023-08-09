@@ -4,6 +4,16 @@ const router = require('express').Router();
 const SessionExtractor = require('../middleware/SessionExtractor');
 const AuthHandler = require('../middleware/AuthHandler');
 
+const SiteFinder = async (req, res, next) => {
+  const site = await Site.findByPk(req.params.id);
+  if (site) {
+    req.site = site;
+    next();
+  } else {
+    res.status(404).end();
+  }
+}
+
 router.post('/', SessionExtractor, AuthHandler, async (req, res) => {
   const body = req.body;
 
@@ -40,6 +50,15 @@ router.get('/', SessionExtractor, AuthHandler,  async (req, res) => {
   ],
   });
   res.status(200).json(sites);
+});
+
+router.delete('/:id', SiteFinder, SessionExtractor, AuthHandler, async (req, res) =>{
+  try {
+    await req.site.destroy();
+    res.status(200).end();
+  } catch (err) {
+    err.status(400).json({errors: err.message});
+  }
 });
 
 module.exports = router;

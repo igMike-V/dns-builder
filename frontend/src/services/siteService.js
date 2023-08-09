@@ -21,4 +21,14 @@ const addSite = async (site) => {
   }
 }
 
-export default { getSites, addSite }
+
+const deleteSite = async (id) => {
+  try {
+    const req = await axios.delete(`${baseUrl}/sites/${id}`)
+    return req.data
+  } catch (err) {
+    console.error(err.response.data.error)
+  }
+}
+
+export default { getSites, addSite, deleteSite }

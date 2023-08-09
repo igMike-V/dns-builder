@@ -46,10 +46,7 @@ const Templates = () => {
       }
     } catch (err) {
       console.error(err)
-    }
-    
-    
-    
+    } 
   }
 
  

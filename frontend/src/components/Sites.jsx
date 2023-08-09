@@ -3,20 +3,13 @@ import { copyContent } from '../utilities/utilities'
 import siteService from '../services/siteService'
 import { useNavigate } from 'react-router-dom'
 
-import { HiPencilAlt, HiClipboardCopy, HiClipboardCheck, HiOutlineClipboardCopy } from 'react-icons/hi'
+import { useConfirm } from './shared/ConfirmContext'
+import { HiPencilAlt, HiClipboardCopy, HiOutlineTrash } from 'react-icons/hi'
 import AddSiteForm from './AddSiteForm'
-
-
-const styles = {
-  table: 'w-full rounded-lg',
-  th: 'bg-gray-300 border text-left px-2 py-3',
-  td: 'border px-2 py-1',
-  trBody: 'hover:bg-gray-200 cursor-pointer',
-  icons: 'text-xl text-gray-600 hover:text-teal-600 cursor-pointer'
-}
-
+import Styles from './Styles/Styles'
 
 const Sites = () => {
+  const { isConfirmed } = useConfirm()
   
   const navigate = useNavigate()
 
@@ -51,6 +44,19 @@ const Sites = () => {
     navigate(`/site/${id}`)  
   }
 
+  const handleDeleteClick = async (site) => {
+    try {
+      const confirmMessage = await isConfirmed(`Delete Site ${site.name}`, `Are you sure you want to delete the site:  "${site.name}"`)
+      if (confirmMessage) {
+        await siteService.deleteSite(site.id)
+        setUpdateSites(prev => prev + 1)
+      }
+    } catch (err) {
+      console.error(err)
+    } 
+  }
+
+
   //TODO - move to utilities
   const getSiteLink = (domain) => {
     //TODO - get set address in config
@@ -67,24 +73,39 @@ const Sites = () => {
         {!showAddForm && <button className='shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-3 rounded' onClick={newSite}>Add Site</button>}
       </header>
       <section className='flex flex-row justify-between py-6'>
-        <table className={styles.table}>
+        <table className={Styles.table}>
           <thead>
             <tr>
-              <th className={styles.th}>Name</th>
-              <th className={styles.th}>Domain</th>
-              <th className={styles.th}></th>
+              <th className={Styles.th}>Name</th>
+              <th className={Styles.th}>Domain</th>
+              <th className={Styles.th}></th>
             </tr>
           </thead>
           <tbody>
         {sites.map(site => {
           return (
-            <tr className={styles.trBody} key={site.id}>
-              <td className={styles.td}>{site.name}</td>
-              <td className={styles.td}>{site.domain}</td>
-              <td className={styles.td}>
+            <tr className={Styles.trBody} key={site.id}>
+              <td className={Styles.td}>{site.name}</td>
+              <td className={Styles.td}>{site.domain}</td>
+              <td className={Styles.td}>
                 <div className='flex gap-2 flex-row justify-end'>
-                  <HiClipboardCopy className={styles.icons} onClick={() => copyContent(getSiteLink(site.domain))}>Copy Link</HiClipboardCopy>
-                  <HiPencilAlt className={styles.icons} onClick={() => copyContent('putcopydetailshere')}>Edit</HiPencilAlt>
+                  <HiClipboardCopy 
+                    className={Styles.icons} 
+                    onClick={() => copyContent(getSiteLink(site.domain))}
+                  >
+                    Copy Link
+                  </HiClipboardCopy>
+                  <HiPencilAlt 
+                    className={Styles.icons} 
+                    onClick={() => copyContent('putcopydetailshere')}
+                  >
+                    Edit
+                  </HiPencilAlt>
+                  <HiOutlineTrash
+                    className={Styles.icons} 
+                    onClick={() => handleDeleteClick(site)}>
+                      Delete
+                  </HiOutlineTrash>
                 </div>
               </td>
             </tr>
