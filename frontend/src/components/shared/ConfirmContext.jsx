@@ -1,29 +1,26 @@
 import { createContext, useState, useContext } from 'react'
 
-export const ConfirmContext = createContext()
+const ConfirmContext = createContext()
 
-export const useConfirm = () => {
+const useConfirm = () => {
   const [ confirm, setConfirm ] = useContext(ConfirmContext)
 
-  const isConfirmed = (prompt) => {
-    const promise = new Promise((resolve, reject) => {
+  const isConfirmed = (heading, message) => {
+    return new Promise((resolve, reject) => {
       setConfirm({
-        heading: prompt,
+        heading,
+        message,
         isOpen: true,
-        proceed: resolve,
-        cancel: reject
+        proceed: () => {
+          setConfirm({...confirm, isOpen: false})
+          resolve(true)
+        },
+        cancel: () => {
+          setConfirm({...confirm, isOpen: false})
+          resolve(false)
+          reject("user cancelled")
+        },
       })
-    })
-
-    return promise.then(() => {
-      () => {
-        setConfirm({...confirm, isOpen: false})
-        return true
-      },
-      () => {
-        setConfirm({...confirm, isOpen: false})
-        return false
-      }
     })
   }
 
@@ -41,10 +38,10 @@ const ConfirmContextProvider = ({ children }) => {
     cancel: null
   })
   return (
-    <ConfirmContext.Provider value={{ confirm, setConfirm }}>
+    <ConfirmContext.Provider value={[ confirm, setConfirm ]}>
       {children}
     </ConfirmContext.Provider>
   )
 }
 
-export default {ConfirmContextProvider}
+export {ConfirmContextProvider, ConfirmContext, useConfirm}

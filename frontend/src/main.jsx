@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider} from 'react-router-dom'
 
 import {AuthContextProvider} from './components/shared/AuthContext'
+import { ConfirmContextProvider } from './components/shared/ConfirmContext'
 
 import './index.css'
 import Root from './Root'
@@ -41,10 +42,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <section className=''>
       <AuthContextProvider>
-        <RouterProvider router={router} />
+        <ConfirmContextProvider>
+          <RouterProvider router={router} />
+        </ConfirmContextProvider>
       </AuthContextProvider>
-    </section>
   </React.StrictMode>,
 )
