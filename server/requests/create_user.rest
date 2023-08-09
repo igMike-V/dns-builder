@@ -4,7 +4,7 @@ Content-Type: application/json
 {
   "name": "Mike Vautour",
   "email": "mike@mike.com",
-  "password": "password"
+  "password": "4kjg08s789o8dpfobjh"
 }
 
 ### Delete record
