@@ -53,7 +53,7 @@ const AddTemplateForm = ({setShowAddForm, setUpdateTemplates}) => {
       const template = {
         name: inputs.name.value,
       }
-      templateService.addTemplate(template)
+      await templateService.addTemplate(template)
       setShowAddForm(false)
       setUpdateTemplates(prev => prev + 1)
     }

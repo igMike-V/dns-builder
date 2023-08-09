@@ -1,33 +1,28 @@
 import { useState, useEffect } from 'react'
+import { useConfirm } from './shared/ConfirmContext'
+
 import templateService from '../services/templateService'
-import { useNavigate } from 'react-router-dom'
 
 import { HiPencilAlt, HiOutlineTrash } from 'react-icons/hi'
-
 import AddTemplateForm from './AddTemplateForm'
-import ConfirmModal from './shared/ConfirmModal'
-
 import Styles from './Styles/Styles'
 
 const Templates = () => {
   
-  const navigate = useNavigate()
+  const { isConfirmed } = useConfirm()
 
-  const [templates, settemplates] = useState([])
+  const [templates, setTemplates] = useState([])
   const [showAddForm, setShowAddForm] = useState(false)
   const [updateTemplates, setUpdateTemplates] = useState(0)
-
-  // Delete confirmation modal
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false)
-  
-
+ 
   /* Load templates */
   useEffect(() => {
     const fetchtemplates = async () => {
       const templates = await templateService.getTemplates()
-      if(templates) settemplates(templates)
+      if(templates) setTemplates(templates)
     }
     fetchtemplates()
+    console.log('templates set')
   }, [updateTemplates])
 
 
@@ -42,38 +37,25 @@ const Templates = () => {
     console.log('row clicked', id)
   }
 
-  const deleteTemplate = async (id) => {
-    const response = await templateService.deleteTemplate(id)
-    if (response) setUpdateTemplates(updateTemplates + 1)
-    else console.log('error deleting template')
-  }
-
-  const modalOptions = {
-    show: setDeleteModalOpen,
-    title: 'Delete Template',
-    message: 'Are you sure you want to delete this template?',
-    confirmLabel: 'Yes',
-    cancelLabel: 'No',
-    confirmationAction: deleteTemplate,
-    id: null
-  }
-
-  const handleDeleteClick = (template) => {
-    console.log(template.name)
-    if (!template.id) {
-      return console.log('error deleting template')
+  const handleDeleteClick = async (template) => {
+    try {
+      const confirmMessage = await isConfirmed(`Delete Template ${template.name}`, `Are you sure you want to delete the template:  "${template.name}"`)
+      if (confirmMessage) {
+        await templateService.deleteTemplate(template.id)
+        setUpdateTemplates(prev => prev + 1)
+      }
+    } catch (err) {
+      console.error(err)
     }
-    modalOptions.id = template.id
-    modalOptions.title = `${modalOptions.title} "${template.name}"`
-    setDeleteModalOpen(true)
-    console.log(deleteModalOpen)
+    
+    
+    
   }
 
  
 
   return (
     <section className='w-full pt-7'>
-      { deleteModalOpen && <ConfirmModal modalOptions={modalOptions} /> }
       {showAddForm && <AddTemplateForm setShowAddForm={setShowAddForm} setUpdateTemplates={setUpdateTemplates} />}
       <header className='flex flex-row justify-between'>
         <h1>DNS Templates: </h1>
@@ -94,8 +76,17 @@ const Templates = () => {
               <td className={Styles.td} onClick={() => handleEditClick(template.id)}>{template.name}</td>
               <td className={Styles.td}>
                 <div className='flex gap-2 flex-row justify-end'>
-                  <HiPencilAlt className={Styles.icons} onClick={() => handleEditClick(template.id)}>Edit</HiPencilAlt>
-                  <HiOutlineTrash className={Styles.icons} onClick={() => handleDeleteClick(template)}>Delete</HiOutlineTrash>
+                  <HiPencilAlt 
+                    className={Styles.icons} 
+                    onClick={() => handleEditClick(template.id)}
+                  >
+                    Edit
+                  </HiPencilAlt>
+                  <HiOutlineTrash
+                    className={Styles.icons} 
+                    onClick={() => handleDeleteClick(template)}>
+                      Delete
+                  </HiOutlineTrash>
                 </div>
               </td>
             </tr>

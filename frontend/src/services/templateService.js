@@ -31,4 +31,4 @@ const deleteTemplate = async (id) => {
 }
 
 
-export default { getTemplates, addTemplate }
+export default { getTemplates, addTemplate, deleteTemplate}

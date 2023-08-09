@@ -2,8 +2,19 @@ const { Template } = require('../models');
 const router = require('express').Router();
 
 const SessionExtractor = require('../middleware/SessionExtractor');
+const AuthHandler = require('../middleware/AuthHandler');
 
-router.post('/', SessionExtractor, async (req, res) => {
+const TemplateFinder = async (req, res, next) => {
+  const template = await Template.findByPk(req.params.id);
+  if (template) {
+    req.template = template;
+    next();
+  } else {
+    res.status(404).end();
+  }
+}
+
+router.post('/', SessionExtractor, AuthHandler, async (req, res) => {
   const body = req.body;
 
   try {
@@ -23,5 +34,14 @@ router.get('/', async (_req, res) => {
   });
   res.status(200).json(templates);
 });
+
+router.delete('/:id', TemplateFinder, SessionExtractor, AuthHandler, async (req, res) =>{
+  try {
+    await req.template.destroy();
+    res.status(200).end();
+  } catch (err) {
+    err.status(400).json({errors: err.message});
+  }
+})
 
 module.exports = router;
