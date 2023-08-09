@@ -12,7 +12,7 @@ import { ErrorPage } from './components/ErrorPage'
 import Sites from './components/Sites'
 import Templates from './components/Templates'
 
-import { AddSiteForm } from './components/AddSiteForm'
+
 
 
 const router = createBrowserRouter([
@@ -24,12 +24,6 @@ const router = createBrowserRouter([
       {
         path: 'sites',
         element: <Sites/>,
-        children: [
-          {
-            path: 'addsite',
-            element: <AddSiteForm />,
-          }
-        ]
       },
       {
         path: 'templates',
