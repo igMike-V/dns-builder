@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react'
 import { copyContent } from '../utilities/utilities'
 import siteService from '../services/siteService'
-import { useNavigate, Outlet } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 import { HiPencilAlt, HiClipboardCopy, HiClipboardCheck, HiOutlineClipboardCopy } from 'react-icons/hi'
+import AddSiteForm from './AddSiteForm'
 
 
 const styles = {
@@ -20,9 +21,11 @@ const Sites = () => {
   const navigate = useNavigate()
 
   const [sites, setSites] = useState([])
+  const [showAddForm, setShowAddForm] = useState(false)
+  const [updateSites, setUpdateSites] = useState(0)
 
   const newSite = () => {
-    navigate('/sites/addsite')
+    setShowAddForm(true)
   }
 
 
@@ -33,7 +36,7 @@ const Sites = () => {
       if(sites) setSites(sites)
     }
     fetchSites()
-  }, [])
+  }, [updateSites])
 
 
   if (!sites) return (
@@ -44,7 +47,7 @@ const Sites = () => {
   )
 
   const handleEditClick = (id) => {
-    console.log('row clicked', id)
+    console.log('edit clicked', id)
     navigate(`/site/${id}`)  
   }
 
@@ -58,10 +61,10 @@ const Sites = () => {
 
   return (
     <section className='w-full pt-7'>
-      <Outlet />
+      { showAddForm && <AddSiteForm setShowAddForm={setShowAddForm} setUpdateSites={setUpdateSites} /> }
       <header className='flex flex-row justify-between'>
         <h1>Site List: </h1>
-        <button className='shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-3 rounded' onClick={newSite}>Add Site</button>
+        {!showAddForm && <button className='shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-3 rounded' onClick={newSite}>Add Site</button>}
       </header>
       <section className='flex flex-row justify-between py-6'>
         <table className={styles.table}>
