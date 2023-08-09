@@ -21,4 +21,14 @@ const addTemplate = async (template) => {
   }
 }
 
+const deleteTemplate = async (id) => {
+  try {
+    const req = await axios.delete(`${baseUrl}/templates/${id}`)
+    return req.data
+  } catch (err) {
+    console.error(err.response.data.error)
+  }
+}
+
+
 export default { getTemplates, addTemplate }
