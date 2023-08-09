@@ -1,10 +1,8 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import siteService from '../services/siteService'
 
 
-export const AddSiteForm = () => {
-  const navigate = useNavigate()
+const AddSiteForm = ({setShowAddForm, setUpdateSites}) => {
 
   const [inputs, setInputs] = useState({
     name: {
@@ -36,7 +34,7 @@ export const AddSiteForm = () => {
   }
   const handleCancel = (e) => {
     e.preventDefault()
-    navigate(-1)
+    setShowAddForm(false)
   }
 
   const handleClick = async (e) => {
@@ -74,7 +72,9 @@ export const AddSiteForm = () => {
         domain: inputs.domain.value
       }
       siteService.addSite(site)
-      navigate('/sites')
+      setShowAddForm(false)
+      setUpdateSites(prev => prev + 1)
+
     }
   }
  
@@ -134,3 +134,4 @@ export const AddSiteForm = () => {
   )
 }
 
+export default AddSiteForm
