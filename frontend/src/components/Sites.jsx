@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useConfirm } from './shared/ConfirmContext'
 import { HiPencilAlt, HiClipboardCopy, HiOutlineTrash } from 'react-icons/hi'
-import AddSiteForm from './AddSiteForm'
+import SiteForm from './SiteForm'
 import Styles from './Styles/Styles'
 
 const Sites = () => {
@@ -16,6 +16,7 @@ const Sites = () => {
   const [sites, setSites] = useState([])
   const [showAddForm, setShowAddForm] = useState(false)
   const [updateSites, setUpdateSites] = useState(0)
+  const [editSite, setEditSite] = useState(null)
 
   const newSite = () => {
     setShowAddForm(true)
@@ -39,9 +40,9 @@ const Sites = () => {
     </section>
   )
 
-  const handleEditClick = (id) => {
-    console.log('edit clicked', id)
-    navigate(`/site/${id}`)  
+  const handleEditClick = (site) => {
+    setEditSite(site)
+    setShowAddForm(true)
   }
 
   const handleDeleteClick = async (site) => {
@@ -67,7 +68,7 @@ const Sites = () => {
 
   return (
     <section className='w-full pt-7'>
-      { showAddForm && <AddSiteForm setShowAddForm={setShowAddForm} setUpdateSites={setUpdateSites} /> }
+      { showAddForm && <SiteForm setShowAddForm={setShowAddForm} setUpdateSites={setUpdateSites} setEditSite={setEditSite} editSite={editSite} /> }
       <header className='flex flex-row justify-between'>
         <h1>Site List: </h1>
         {!showAddForm && <button className='shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-3 rounded' onClick={newSite}>Add Site</button>}
@@ -97,7 +98,7 @@ const Sites = () => {
                   </HiClipboardCopy>
                   <HiPencilAlt 
                     className={Styles.icons} 
-                    onClick={() => copyContent('putcopydetailshere')}
+                    onClick={() => handleEditClick(site)}
                   >
                     Edit
                   </HiPencilAlt>

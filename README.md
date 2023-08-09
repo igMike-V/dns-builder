@@ -1,10 +1,7 @@
 <a name="readme-top"></a>
 # DNS Record Builder
 
-This project aims to build a simple interface to provide DNS entry values and check connection status for domains.  
-
-**STATUS**
-Currently in beta.  Frontend only with data stored directly in the application.  Future release will add ability to store any number of records in a database.
+This project aims to build a simple interface to provide DNS entry values and check connection status for domains. DNS Record builder allows logged in users to create: `Records`, `Sites`, and `Record` `Templates`.  Sites can have any number of `Records` or `Templates` that can be connected by a logged in user. The software allows non logged in users to view `Sites` along with the associated `Records` and `Templates` via a link created by a logged in user.  Since DNS records are public there is no pressing need to provide any sort of token authentication to simply view records, therefore site lookup is done via url parameters.
 
 
 <!-- TABLE OF CONTENTS -->
@@ -53,35 +50,62 @@ Currently in beta.  Frontend only with data stored directly in the application. 
 ![Sequelize](https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white)
 ![MariaDB](https://img.shields.io/badge/MariaDB-003545?style=for-the-badge&logo=mariadb&logoColor=white)
 
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To run this project, 
+This project is organized as a MonoRepo.  The frontend and backend are located in their respective directories under the root directory of the repository.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install
-  npm run dev
-  ```
+Database for development is included in a docker-compose file found in the main directory.  you will need to have docker installed on your machine or an external MariaDB that you can connect to for development.  We will only be discussing the included docker image from here on out, however configuring an external database can be done by updating environment variables from a .env file in the server directory.
+
+#### Sample .env file
+```
+DATABASE_URL=localhost
+DB_PORT=3306
+DB_NAME=dns-helper
+DB_USER=user
+DB_PASSWORD=password
+PORT=3000
+NODE_ENV=development
+FRONTEND_URL=http://localhost:5173
+```
 
 ### Installation
 
-1. Clone the repo
+Clone the repo
    ```sh
    git clone https://github.com/igMike-V/dns-builder.git
    ```
-2. Install NPM packages
+#### Server
+
+Navigate to "server" directory
+   
+1. Install NPM packages
    ```sh
    npm install
    ```
+2. Compose Docker MariaDB
+   ```sh
+   docker-compose up
+   ```
+3. Create .env file (see example above for dev environment)
+
+4. Run Server (Database tables will be built via migration on first run)
+```sh
+  npm run dev
+```
+
+#### Frontend
+Navigate to the "frontend" directory
+
+1. Install NPM packages
+   ```sh
+   npm install
+   ```
+
 2. Run in dev mode (VITE)
    ```sh
    npm run dev
@@ -95,14 +119,14 @@ This is an example of how to list things you need to use the software and how to
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Store data to a database
+- [✔️] Store data to a database
 - [ ] add estimation of TTL and testing of dns
-- [ ] form validation
+- [✔️] form validation
 - [ ] SPF builder (for clients with multiple SPF records)
 - [ ] connect registrar APIs for one-click updates.
-- [ ] Custom records per domain
+- [✔️] Custom records per domain
 - [ ] DNS LOOKUPS
-- [ ] User management
+- [✔️] User management
 
 See the [open issues](https://github.com/igMike-V/dns-builder/issues) for a full list of proposed features (and known issues).
 

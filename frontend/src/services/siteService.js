@@ -21,6 +21,15 @@ const addSite = async (site) => {
   }
 }
 
+const updateSite = async (id, site) => {
+  try {
+    const req = await axios.put(`${baseUrl}/sites/${id}`, site)
+    return req.data
+  } catch (err) {
+    console.error(err.response.data.error)
+  }
+}
+
 
 const deleteSite = async (id) => {
   try {
@@ -31,4 +40,4 @@ const deleteSite = async (id) => {
   }
 }
 
-export default { getSites, addSite, deleteSite }
+export default { getSites, addSite, updateSite, deleteSite }

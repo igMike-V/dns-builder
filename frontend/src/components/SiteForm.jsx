@@ -2,16 +2,16 @@ import { useState } from 'react'
 import siteService from '../services/siteService'
 
 
-const AddSiteForm = ({setShowAddForm, setUpdateSites}) => {
+const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite}) => {
 
   const [inputs, setInputs] = useState({
     name: {
-      value: '',
+      value: editSite ? editSite.name : '',
       error: false,
       errorMessage: ''
     },
     domain: {
-      value: '',
+      value: editSite ? editSite.domain : '',
       error: false,
       errorMessage: ''
     }
@@ -34,6 +34,7 @@ const AddSiteForm = ({setShowAddForm, setUpdateSites}) => {
   }
   const handleCancel = (e) => {
     e.preventDefault()
+    setEditSite(null)
     setShowAddForm(false)
   }
 
@@ -67,14 +68,20 @@ const AddSiteForm = ({setShowAddForm, setUpdateSites}) => {
       })
     }
     if (valid) {
+      /* Site inputs are valid lets submit */
       const site = {
         name: inputs.name.value,
         domain: inputs.domain.value
       }
-      siteService.addSite(site)
+      /* Check if the form is in update or new site mode */
+      if(editSite) {
+        siteService.updateSite(editSite.id, site)
+      } else {
+        siteService.addSite(site)
+      }
+      setEditSite(null)
       setShowAddForm(false)
       setUpdateSites(prev => prev + 1)
-
     }
   }
  
@@ -93,7 +100,7 @@ const AddSiteForm = ({setShowAddForm, setUpdateSites}) => {
 
   return (
     <>
-    <h1>Add a site</h1>
+    <h1>{editSite ? `Edit Site: "${editSite.name} (${editSite.domain})"` : "Add a site" }</h1>
       <form className='w-full pt-7'>
         <div className="md:items-center mb-6">
           <div className="">
@@ -124,8 +131,18 @@ const AddSiteForm = ({setShowAddForm, setUpdateSites}) => {
           </div>
         </div>
         <div className='flex gap-2 pb-8'>
-          <button className="shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" onClick={(e) => handleClick(e)}>Add Site</button>
-          <button className="shadow bg-orange-600 hover:bg-orange-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" onClick={(e) => handleCancel(e)}>Cancel</button>
+          <button 
+            className="shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" 
+            onClick={(e) => handleClick(e)}
+          >
+            {editSite ? "Update Site" : "Add Site"}
+          </button>
+          <button 
+            className="shadow bg-orange-600 hover:bg-orange-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" 
+            onClick={(e) => handleCancel(e)}
+          >
+            Cancel
+          </button>
         </div>
         <hr className='py-8' />
         
@@ -134,4 +151,4 @@ const AddSiteForm = ({setShowAddForm, setUpdateSites}) => {
   )
 }
 
-export default AddSiteForm
+export default SiteForm
