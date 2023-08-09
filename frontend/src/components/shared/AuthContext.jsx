@@ -28,7 +28,7 @@ const AuthContextProvider = ({ children }) => {
       } else {
         setUser(null)
         setIsLoggedIn(false)
-        setLoading(true)
+        setLoading(false)
       }
       
     }
