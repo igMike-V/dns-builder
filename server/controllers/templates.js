@@ -35,6 +35,20 @@ router.get('/', async (_req, res) => {
   res.status(200).json(templates);
 });
 
+router.put('/:id', TemplateFinder, SessionExtractor, AuthHandler, async (req, res) => {
+  if (req.body) {
+    try {
+      await req.template.update({...req.body})
+      await req.template.save();
+      res.status(200).json(req.template);
+    } catch (err) {
+      res.status(400).json({errors: err.message});
+    }
+  } else {
+    return res.status(400).json({error: 'malformed request'});
+  }
+});
+
 router.delete('/:id', TemplateFinder, SessionExtractor, AuthHandler, async (req, res) =>{
   try {
     await req.template.destroy();

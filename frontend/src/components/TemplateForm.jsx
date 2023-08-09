@@ -2,12 +2,13 @@ import { useState } from 'react'
 import templateService from '../services/templateService'
 
 
-const AddTemplateForm = ({setShowAddForm, setUpdateTemplates}) => {
+const TemplateForm = ({setShowAddForm, setUpdateTemplates, editTemplate, setEditTemplate}) => {
 
+  if (editTemplate) console.log('editTemplate', editTemplate)
 
   const [inputs, setInputs] = useState({
     name: {
-      value: '',
+      value: editTemplate? editTemplate.name : '',
       error: false,
       errorMessage: ''
     }
@@ -30,6 +31,7 @@ const AddTemplateForm = ({setShowAddForm, setUpdateTemplates}) => {
   }
   const handleCancel = (e) => {
     e.preventDefault()
+    setEditTemplate(null)
     setShowAddForm(false)
   }
 
@@ -50,10 +52,17 @@ const AddTemplateForm = ({setShowAddForm, setUpdateTemplates}) => {
       })
     }
     if (valid) {
+      /* All imputs validate lets submit */
       const template = {
         name: inputs.name.value,
       }
-      await templateService.addTemplate(template)
+      /* Check if the form is in update or new template mode */
+      if(editTemplate) {
+        await templateService.updateTemplate(editTemplate.id, template)
+        setEditTemplate(null)
+      } else {
+        await templateService.addTemplate(template)
+      }
       setShowAddForm(false)
       setUpdateTemplates(prev => prev + 1)
     }
@@ -83,8 +92,18 @@ const AddTemplateForm = ({setShowAddForm, setUpdateTemplates}) => {
           </div>
         </div>
         <div className='flex gap-2 pb-8'>
-          <button className="shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" onClick={(e) => handleClick(e)}>Add template</button>
-          <button className="shadow bg-orange-600 hover:bg-orange-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" onClick={(e) => handleCancel(e)}>Cancel</button>
+          <button 
+            className="shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" 
+            onClick={(e) => handleClick(e)}
+          >
+            {editTemplate ? "Edit Template" : "Add template"}
+          </button>
+          <button 
+            className="shadow bg-orange-600 hover:bg-orange-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" 
+            onClick={(e) => handleCancel(e)}
+          >
+            Cancel
+          </button>
         </div>
         <hr className='py-8' />
         
@@ -93,4 +112,4 @@ const AddTemplateForm = ({setShowAddForm, setUpdateTemplates}) => {
   )
 }
 
-export default AddTemplateForm
+export default TemplateForm

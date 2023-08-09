@@ -4,7 +4,7 @@ import { useConfirm } from './shared/ConfirmContext'
 import templateService from '../services/templateService'
 
 import { HiPencilAlt, HiOutlineTrash } from 'react-icons/hi'
-import AddTemplateForm from './AddTemplateForm'
+import TemplateForm from './TemplateForm'
 import Styles from './Styles/Styles'
 
 const Templates = () => {
@@ -14,6 +14,7 @@ const Templates = () => {
   const [templates, setTemplates] = useState([])
   const [showAddForm, setShowAddForm] = useState(false)
   const [updateTemplates, setUpdateTemplates] = useState(0)
+  const [editTemplate, setEditTemplate] = useState(null)
  
   /* Load templates */
   useEffect(() => {
@@ -33,8 +34,9 @@ const Templates = () => {
     </section>
   )
 
-  const handleEditClick = (id) => {
-    console.log('row clicked', id)
+  const handleEditClick = (template) => {
+    setEditTemplate(template)
+    setShowAddForm(true)
   }
 
   const handleDeleteClick = async (template) => {
@@ -53,7 +55,7 @@ const Templates = () => {
 
   return (
     <section className='w-full pt-7'>
-      {showAddForm && <AddTemplateForm setShowAddForm={setShowAddForm} setUpdateTemplates={setUpdateTemplates} />}
+      {showAddForm && <TemplateForm setShowAddForm={setShowAddForm} setUpdateTemplates={setUpdateTemplates} editTemplate={editTemplate} setEditTemplate={setEditTemplate} />}
       <header className='flex flex-row justify-between'>
         <h1>DNS Templates: </h1>
         <button className='shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-3 rounded' onClick={() => setShowAddForm(true)}>Create New Template</button>
@@ -75,7 +77,7 @@ const Templates = () => {
                 <div className='flex gap-2 flex-row justify-end'>
                   <HiPencilAlt 
                     className={Styles.icons} 
-                    onClick={() => handleEditClick(template.id)}
+                    onClick={() => handleEditClick(template)}
                   >
                     Edit
                   </HiPencilAlt>

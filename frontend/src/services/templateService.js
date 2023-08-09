@@ -21,6 +21,15 @@ const addTemplate = async (template) => {
   }
 }
 
+const updateTemplate = async (id, template) => {
+  try {
+    const req = await axios.put(`${baseUrl}/templates/${id}`, template)
+    return req.data
+  } catch (err) {
+    console.error(err.response.data.error)
+  }
+}
+
 const deleteTemplate = async (id) => {
   try {
     const req = await axios.delete(`${baseUrl}/templates/${id}`)
@@ -31,4 +40,4 @@ const deleteTemplate = async (id) => {
 }
 
 
-export default { getTemplates, addTemplate, deleteTemplate}
+export default { getTemplates, addTemplate, updateTemplate, deleteTemplate}
