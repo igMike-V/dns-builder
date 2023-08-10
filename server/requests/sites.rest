@@ -1,0 +1,12 @@
+### POST
+POST http://localhost:3000/api/sites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWlrZS5jb20iLCJpZCI6ImY3ZDM5NzVlLTYyNmYtNDg3OC1hMzUzLWIzNzVjNDg2OWZiMiIsImlhdCI6MTY5MDU1MjQ0OX0.5BxLtbX49pqRrdhlMHN6U0VKTpJ_swAL4VESWkmbxLE
+Content-Type: application/json
+
+{
+    "name": "Biz Coach Canada",
+    "domain": "bizcoachcanada.com"
+}
+
+### GET
+GET http://localhost:3000/api/records

@@ -1,0 +1,29 @@
+### Connect a record to a template
+POST http://localhost:3000/api/template-records
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWlrZS5jb20iLCJpZCI6ImY3ZDM5NzVlLTYyNmYtNDg3OC1hMzUzLWIzNzVjNDg2OWZiMiIsImlhdCI6MTY5MDU1MjQ0OX0.5BxLtbX49pqRrdhlMHN6U0VKTpJ_swAL4VESWkmbxLE
+Content-Type: application/json
+
+{
+  "templateId": 1,
+  "recordId": 4
+}
+
+### Connect a template to a site
+POST http://localhost:3000/api/site-templates
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWlrZS5jb20iLCJpZCI6ImY3ZDM5NzVlLTYyNmYtNDg3OC1hMzUzLWIzNzVjNDg2OWZiMiIsImlhdCI6MTY5MDU1MjQ0OX0.5BxLtbX49pqRrdhlMHN6U0VKTpJ_swAL4VESWkmbxLE
+Content-Type: application/json
+
+{
+  "siteId": 1,
+  "templateId": 1
+}
+
+### Connect a record to a site
+POST http://localhost:3000/api/site-records
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWlrZS5jb20iLCJpZCI6ImY3ZDM5NzVlLTYyNmYtNDg3OC1hMzUzLWIzNzVjNDg2OWZiMiIsImlhdCI6MTY5MDU1MjQ0OX0.5BxLtbX49pqRrdhlMHN6U0VKTpJ_swAL4VESWkmbxLE
+Content-Type: application/json
+
+{
+  "siteId": 1,
+  "recordId": 3
+}

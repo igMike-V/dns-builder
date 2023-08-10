@@ -1,0 +1,26 @@
+### POST
+POST http://localhost:3000/api/records
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWlrZS5jb20iLCJpZCI6ImY3ZDM5NzVlLTYyNmYtNDg3OC1hMzUzLWIzNzVjNDg2OWZiMiIsImlhdCI6MTY5MDU1MjQ0OX0.5BxLtbX49pqRrdhlMHN6U0VKTpJ_swAL4VESWkmbxLE
+Content-Type: application/json
+
+{
+    "name": "SPF",
+    "description": "For transactional email service: if this already exists combine with existing record NOTE: to include as a custom spf when a record already exists combine by using \"v=spf1\" & \"~all\" only once e.g: v=spf1 include:_spf.record1.com include:_spf.record2.com ~all'",
+    "lookupString": "",
+    "hostName": "@",
+    "value": "v=spf1 MX include:_spf.elasticemail.com ~all",
+    "ttl": 1800,
+    "record_type_id":  5
+}
+
+### PUT
+PUT http://localhost:3000/api/records/4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1pa2VAbWlrZS5jb20iLCJpZCI6ImY3ZDM5NzVlLTYyNmYtNDg3OC1hMzUzLWIzNzVjNDg2OWZiMiIsImlhdCI6MTY5MDU1MjQ0OX0.5BxLtbX49pqRrdhlMHN6U0VKTpJ_swAL4VESWkmbxLE
+Content-Type: application/json
+
+{
+    "recordTypeId": 5
+}
+
+### GET
+GET http://localhost:3000/api/records
