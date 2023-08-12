@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import { useConfirm } from './shared/ConfirmContext'
+import { useConfirm } from '../shared/ConfirmContext'
 
-import templateService from '../services/templateService'
+import templateService from '../../services/templateService'
 
 import { HiPencilAlt, HiOutlineTrash } from 'react-icons/hi'
 import TemplateForm from './TemplateForm'
-import Styles from './Styles/Styles'
+import Styles from '../Styles/Styles'
 
 const Templates = () => {
   

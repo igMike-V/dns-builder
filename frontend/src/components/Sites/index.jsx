@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react'
-import { copyContent } from '../utilities/utilities'
-import siteService from '../services/siteService'
+import { copyContent } from '../../utilities/utilities'
+import siteService from '../../services/siteService'
 import { useNavigate } from 'react-router-dom'
 
-import { useConfirm } from './shared/ConfirmContext'
+import { useConfirm } from '../shared/ConfirmContext'
 import { HiPencilAlt, HiClipboardCopy, HiOutlineTrash } from 'react-icons/hi'
 import SiteForm from './SiteForm'
-import Styles from './Styles/Styles'
+import Styles from '../Styles/Styles'
 
 const Sites = () => {
   const { isConfirmed } = useConfirm()

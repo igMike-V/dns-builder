@@ -1,14 +1,17 @@
 import { useState } from 'react'
-import templateService from '../services/templateService'
+import siteService from '../../services/siteService'
 
 
-const TemplateForm = ({setShowAddForm, setUpdateTemplates, editTemplate, setEditTemplate}) => {
-
-  if (editTemplate) console.log('editTemplate', editTemplate)
+const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite}) => {
 
   const [inputs, setInputs] = useState({
     name: {
-      value: editTemplate? editTemplate.name : '',
+      value: editSite ? editSite.name : '',
+      error: false,
+      errorMessage: ''
+    },
+    domain: {
+      value: editSite ? editSite.domain : '',
       error: false,
       errorMessage: ''
     }
@@ -31,13 +34,26 @@ const TemplateForm = ({setShowAddForm, setUpdateTemplates, editTemplate, setEdit
   }
   const handleCancel = (e) => {
     e.preventDefault()
-    setEditTemplate(null)
+    setEditSite(null)
     setShowAddForm(false)
   }
 
   const handleClick = async (e) => {
     e.preventDefault()
     let valid = true
+    if ( !(validateDomain(inputs.domain.value)) ) {
+      valid = false
+      setInputs(prevInputs => {
+        return {
+          ...prevInputs,
+          domain: {
+            ...prevInputs.domain,
+            error: true,
+            errorMessage: 'Invalid domain name'
+          }
+        }
+      })
+    }
     if ( !(validateName(inputs.name.value)) ) {
       valid = false
       setInputs(prevInputs => {
@@ -46,25 +62,34 @@ const TemplateForm = ({setShowAddForm, setUpdateTemplates, editTemplate, setEdit
           name: {
             ...prevInputs.name,
             error: true,
-            errorMessage: 'Invalid template name - template name must be more then 3 characters long'
+            errorMessage: 'Invalid site name - site name must be more then 3 characters long'
           }
         }
       })
     }
     if (valid) {
-      /* All imputs validate lets submit */
-      const template = {
+      /* Site inputs are valid lets submit */
+      const site = {
         name: inputs.name.value,
+        domain: inputs.domain.value
       }
-      /* Check if the form is in update or new template mode */
-      if(editTemplate) {
-        await templateService.updateTemplate(editTemplate.id, template)
-        setEditTemplate(null)
+      /* Check if the form is in update or new site mode */
+      if(editSite) {
+        siteService.updateSite(editSite.id, site)
       } else {
-        await templateService.addTemplate(template)
+        siteService.addSite(site)
       }
+      setEditSite(null)
       setShowAddForm(false)
-      setUpdateTemplates(prev => prev + 1)
+      setUpdateSites(prev => prev + 1)
+    }
+  }
+ 
+  const validateDomain = (domain) => {
+    if (domain.match(/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/)) {
+      return true
+    } else {
+      return false
     }
   }
 
@@ -75,12 +100,12 @@ const TemplateForm = ({setShowAddForm, setUpdateTemplates, editTemplate, setEdit
 
   return (
     <>
-    <h2>Add a template</h2>
+    <h1>{editSite ? `Edit Site: "${editSite.name} (${editSite.domain})"` : "Add a site" }</h1>
       <form className='w-full pt-7'>
         <div className="md:items-center mb-6">
           <div className="">
             <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" >
-              Template Name
+              Site Name
             </label>
           </div>
           <div className="" >
@@ -91,12 +116,26 @@ const TemplateForm = ({setShowAddForm, setUpdateTemplates, editTemplate, setEdit
             { inputs.name.error && <p className='text-red-700'>{inputs.name.errorMessage}</p> }
           </div>
         </div>
+        <div className="md:items-center mb-6">
+          <div className="">
+            <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" >
+              Domain Name
+            </label>
+          </div>
+          <div className="" >
+            <input
+              className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"
+                type="text" name="domain" value={inputs.domain.value} onChange={(e) => handleChange(e) }
+            />
+            { inputs.domain.error && <p className='text-red-700'>{inputs.domain.errorMessage}</p> }
+          </div>
+        </div>
         <div className='flex gap-2 pb-8'>
           <button 
             className="shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" 
             onClick={(e) => handleClick(e)}
           >
-            {editTemplate ? "Edit Template" : "Add template"}
+            {editSite ? "Update Site" : "Add Site"}
           </button>
           <button 
             className="shadow bg-orange-600 hover:bg-orange-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" 
@@ -112,4 +151,4 @@ const TemplateForm = ({setShowAddForm, setUpdateTemplates, editTemplate, setEdit
   )
 }
 
-export default TemplateForm
+export default SiteForm
