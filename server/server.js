@@ -13,7 +13,7 @@ const { connectToDatabase } = require('./util/db')
 const Routers = require('./controllers/')
 
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
   credentials: true
 }))
 

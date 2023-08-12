@@ -1,0 +1,22 @@
+### Create user
+POST http://localhost:3000/api/users
+Content-Type: application/json
+
+{
+  "name": "Mike Vautour",
+  "email": "mike@mike.com",
+  "password": "4kjg08s789o8dpfobjh"
+}
+
+### Edit user
+PUT http://localhost:3000/api/users/b9367782-12f5-43fb-a9a4-a7681bc8428c
+Content-Type: application/json
+
+{
+  "name": "Mike Vautour",
+  "email": "mike@mike.com",
+  "password": "4kjg08s789o8dpfobjh"
+}
+
+### Delete record
+DELETE http://localhost:3000/api/users/3

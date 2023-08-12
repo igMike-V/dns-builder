@@ -2,6 +2,7 @@ const { Record, RecordType } = require('../models');
 const router = require('express').Router();
 
 const SessionExtractor = require('../middleware/SessionExtractor');
+const AuthHandler = require('../middleware/AuthHandler');
 
 const RecordFinder = async (req, res, next) => {
   const record = await Record.findByPk(req.params.id);
@@ -13,7 +14,7 @@ const RecordFinder = async (req, res, next) => {
   }
 }
 
-router.post('/', SessionExtractor, async (req, res) => {
+router.post('/', SessionExtractor, AuthHandler, async (req, res) => {
   const body = req.body;
 
   try {
@@ -41,7 +42,7 @@ router.get('/', async (_req, res) => {
   res.status(200).json(blogs);
 });
 
-router.put('/:id', RecordFinder, SessionExtractor, async (req, res) => {
+router.put('/:id', RecordFinder, SessionExtractor, AuthHandler, async (req, res) => {
   if (req.body) {
     try {
       await req.record.update({...req.body})
