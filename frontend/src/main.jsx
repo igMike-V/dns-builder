@@ -12,6 +12,7 @@ import { LoginForm } from './components/LoginForm'
 import { ErrorPage } from './components/ErrorPage'
 import Sites from './components/Sites'
 import Templates from './components/Templates'
+import Records from './components/Records'
 
 
 
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: 'templates',
         element: <Templates/>,
+      },
+      {
+        path: 'records',
+        element: <Records/>,
       },  
       {
         path: 'login',
