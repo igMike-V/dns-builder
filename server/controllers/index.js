@@ -5,6 +5,7 @@ const logoutRouter = require('./logout');
 const recordsRouter = require('./records');
 const sitesRouter = require('./sites');
 const templatesRouter = require('./templates');
+const recordTypesRouter = require('./recordTypes');
 
 const siteRecordsRouter = require('./siteRecords');
 const siteTemplatesRouter = require('./siteTemplates');
@@ -19,6 +20,7 @@ const Routers = [
   { endpoint: '/api/sites', router: sitesRouter },
   { endpoint: '/api/site-records', router: siteRecordsRouter },
   { endpoint: '/api/site-templates', router: siteTemplatesRouter },
+  { endpoint: '/api/record-types', router: recordTypesRouter },
   { endpoint: '/api/template-records', router: templateRecordsRouter },
   { endpoint: '/api/templates', router: templatesRouter },
 ];

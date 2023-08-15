@@ -7,8 +7,6 @@ import ConfirmModal from "./components/shared/ConfirmModal"
 const Root = () => {
   const navigate = useNavigate()
   const { isLoggedIn, loading } = useAuth()
-  console.log ('isLoggedIn', isLoggedIn)
-  console.log ('loading', loading)
 
   useEffect(() => {
     if (loading) return

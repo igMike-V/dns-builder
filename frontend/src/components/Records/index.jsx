@@ -1,18 +1,15 @@
 import { useState, useEffect } from 'react'
-import { copyContent } from '../../utilities/utilities'
 import recordService from '../../services/recordService'
 import { useNavigate } from 'react-router-dom'
 
 import { useConfirm } from '../shared/ConfirmContext'
-import { HiPencilAlt, HiClipboardCopy, HiOutlineTrash } from 'react-icons/hi'
+import { HiPencilAlt,  HiOutlineTrash } from 'react-icons/hi'
 import RecordForm from './RecordForm'
-import Styles from '../Styles/Styles'
+import styles from '../styles'
 
 const Records = () => {
   const { isConfirmed } = useConfirm()
-  
   const navigate = useNavigate()
-
   const [records, setRecords] = useState([])
   const [showAddForm, setShowAddForm] = useState(false)
   const [updateRecords, setUpdateRecords] = useState(0)
@@ -22,16 +19,14 @@ const Records = () => {
     setShowAddForm(true)
   }
 
-
   /* Load records */
   useEffect(() => {
     const fetchRecords = async () => {
-      const Records = await recordService.get()
-      if(Records) setRecords(Records)
+      const allRecords = await recordService.get()
+      if(allRecords) setRecords(allRecords)
     }
     fetchRecords()
   }, [updateRecords])
-
 
   if (!records) return (
     <section className='w-full pt-7'>
@@ -40,8 +35,8 @@ const Records = () => {
     </section>
   )
 
-  const handleEditClick = (record) => {
-    setEditRecord(record)
+  const handleEditClick = async(record) => {
+    await setEditRecord(record)
     setShowAddForm(true)
   }
 
@@ -62,33 +57,35 @@ const Records = () => {
       { showAddForm && <RecordForm setShowAddForm={setShowAddForm} setUpdateRecords={setUpdateRecords} setEditRecord={setEditRecord} editRecord={editRecord} /> }
       <header className='flex flex-row justify-between'>
         <h1>Record List: </h1>
-        {!showAddForm && <button className='shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-3 rounded' onClick={newRecord}>Add Record</button>}
+        {!showAddForm && <button className={styles.buttons.primary} onClick={newRecord}>Add Record</button>}
       </header>
       <section className='flex flex-row justify-between py-6'>
-        <table className={Styles.table}>
+        <table className={styles.table.table}>
           <thead>
             <tr>
-              <th className={Styles.th}>Name</th>
-              <th className={Styles.th}>Domain</th>
-              <th className={Styles.th}></th>
+              <th className={styles.table.th}>Type</th>
+              <th className={styles.table.th}>Name</th>
+              <th className={styles.table.th}>Value</th>
+              <th className={styles.table.th}></th>
             </tr>
           </thead>
           <tbody>
         {records.map(record => {
           return (
-            <tr className={Styles.trBody} key={record.id}>
-              <td className={Styles.td}>{record.name}</td>
-              <td className={Styles.td}>{record.domain}</td>
-              <td className={Styles.td}>
+            <tr className={styles.table.trBody} key={record.id}>
+              <td className={styles.table.td}>{record.recordType.name}</td>
+              <td className={styles.table.td}>{record.name}</td>
+              <td className={styles.table.td}>{record.value}</td>
+              <td className={styles.table.td}>
                 <div className='flex gap-2 flex-row justify-end'>
                   <HiPencilAlt 
-                    className={Styles.icons} 
+                    className={styles.icons} 
                     onClick={() => handleEditClick(record)}
                   >
                     Edit
                   </HiPencilAlt>
                   <HiOutlineTrash
-                    className={Styles.icons} 
+                    className={styles.icons} 
                     onClick={() => handleDeleteClick(record)}>
                       Delete
                   </HiOutlineTrash>

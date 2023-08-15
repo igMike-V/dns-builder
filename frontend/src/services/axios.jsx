@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { API_URL } from '../utilities/setttings'
+import { API_URL } from '../utilities/settings'
 
 const baseUrl = `${API_URL}/api`
 

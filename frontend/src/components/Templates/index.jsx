@@ -5,7 +5,7 @@ import templateService from '../../services/templateService'
 
 import { HiPencilAlt, HiOutlineTrash } from 'react-icons/hi'
 import TemplateForm from './TemplateForm'
-import Styles from '../Styles/Styles'
+import styles from '../styles'
 
 const Templates = () => {
   
@@ -58,31 +58,31 @@ const Templates = () => {
       {showAddForm && <TemplateForm setShowAddForm={setShowAddForm} setUpdateTemplates={setUpdateTemplates} editTemplate={editTemplate} setEditTemplate={setEditTemplate} />}
       <header className='flex flex-row justify-between'>
         <h1>DNS Templates: </h1>
-        <button className='shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-3 rounded' onClick={() => setShowAddForm(true)}>Create New Template</button>
+        <button className={styles.buttons.primary} onClick={() => setShowAddForm(true)}>Create New Template</button>
       </header>
       <section className='flex flex-row justify-between py-6'>
-        <table className={Styles.table}>
+        <table className={styles.table.table}>
           <thead>
             <tr>
-              <th className={Styles.th}>Name</th>
-              <th className={Styles.th}></th>
+              <th className={styles.table.th}>Name</th>
+              <th className={styles.table.th}></th>
             </tr>
           </thead>
           <tbody>
         {templates.map(template => {
           return (
-            <tr className={Styles.trBody} key={template.id}>
-              <td className={Styles.td} onClick={() => handleEditClick(template.id)}>{template.name}</td>
-              <td className={Styles.td}>
+            <tr className={styles.table.trBody} key={template.id}>
+              <td className={styles.table.td} onClick={() => handleEditClick(template.id)}>{template.name}</td>
+              <td className={styles.table.td}>
                 <div className='flex gap-2 flex-row justify-end'>
                   <HiPencilAlt 
-                    className={Styles.icons} 
+                    className={styles.icons} 
                     onClick={() => handleEditClick(template)}
                   >
                     Edit
                   </HiPencilAlt>
                   <HiOutlineTrash
-                    className={Styles.icons} 
+                    className={styles.icons} 
                     onClick={() => handleDeleteClick(template)}>
                       Delete
                   </HiOutlineTrash>

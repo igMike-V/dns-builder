@@ -1,53 +1,87 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import recordService from '../../services/recordService'
+import Text from '../shared/Forms/Text'
+import Select from '../shared/Forms/Select'
+import recordTypeService from '../../services/recordTypeService'
+import styles from '../styles'
 
 
 const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord}) => {
-
   const [inputs, setInputs] = useState({
     name: {
+      name: 'name',
+      label: 'Name',
       value: editRecord ? editRecord.name : '',
       required: true,
       error: false,
-      errorMessage: ''
+      errorMessage: '',
+
     },
     description: {
+      name: 'description',
+      label: 'Description',
       value: editRecord ? editRecord.description : '',
       required: false,
       error: false,
-      errorMessage: ''
+      errorMessage: '',
+
     },
-    lookup: {
+    lookupString: {
+      name: 'lookupString',
+      label: 'Lookup',
       value: editRecord ? editRecord.lookup : '',
       required: false,
       error: false,
-      errorMessage: ''
+      errorMessage: '',
+
     },
-    host: {
+    hostName: {
+      name: 'hostName',
+      label: 'Host',
       value: editRecord ? editRecord.host : '',
       required: false,
       error: false,
-      errorMessage: ''
+      errorMessage: '',
+
     },
     value: {
+      name: 'value',
+      label: 'Value',
       value: editRecord ? editRecord.value : '',
       required: true,
       error: false,
-      errorMessage: ''
+      errorMessage: '',
+
     },
     ttl: {
+      name: 'ttl',
+      label: 'TTL (Time to live in seconds)',
       value: editRecord ? editRecord.ttl : '',
       required: true,
       error: false,
-      errorMessage: ''
+      errorMessage: '',
+
     },
-    record_type: {
+    recordType: {
+      name: 'recordType',
+      label: 'Record Type',
       value: editRecord ? editRecord.record_type : '',
       required: true,
       error: false,
       errorMessage: '',
-    },
+    }
   })
+
+  const [recordTypes, setRecordTypes] = useState([])
+
+  useEffect(() => {
+    const getRecordTypes = async () => {
+      const typeOptions = await recordTypeService.getRecordTypes()
+      setRecordTypes(typeOptions)
+    }
+    getRecordTypes()
+  }, [])
+  
 
   const handleChange = (e) => {
     const targetField = e.target.name
@@ -70,6 +104,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     setShowAddForm(false)
   }
 
+  //TODO - do validations
   const handleClick = async (e) => {
     e.preventDefault()
     let valid = true
@@ -117,60 +152,34 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     }
   }
  
-  const validateDomain = (domain) => {
-    if (domain.match(/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/)) {
-      return true
-    } else {
-      return false
-    }
-  }
 
   const validateName = (text) => {
     if (text.length > 3) return true 
     return false
   }
 
+
   return (
     <>
-    <h1>{editRecord ? `Edit Record: "${editRecord.name} (${editRecord.domain})"` : "Add a record" }</h1>
+    <h1>{editRecord ? `Edit Record: ${editRecord.type} "(${editRecord.name})"` : "Add a record" }</h1>
       <form className='w-full pt-7'>
-        <div className="md:items-center mb-6">
-          <div className="">
-            <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" >
-              Record Name
-            </label>
-          </div>
-          <div className="" >
-            <input
-              className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"
-                type="text" name="name" value={inputs.name.value} onChange={(e) => handleChange(e)}
-            />
-            { inputs.name.error && <p className='text-red-700'>{inputs.name.errorMessage}</p> }
-          </div>
-        </div>
-        <div className="md:items-center mb-6">
-          <div className="">
-            <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" >
-              Domain Name
-            </label>
-          </div>
-          <div className="" >
-            <input
-              className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"
-                type="text" name="domain" value={inputs.domain.value} onChange={(e) => handleChange(e) }
-            />
-            { inputs.domain.error && <p className='text-red-700'>{inputs.domain.errorMessage}</p> }
-          </div>
-        </div>
+        <Select control={inputs.recordType} options={recordTypes} onChange={handleChange} />
+        <Text control={inputs.name} onChange={handleChange} />
+        <Text control={inputs.description} onChange={handleChange} />
+        <Text control={inputs.lookupString} onChange={handleChange} />  
+        <Text control={inputs.hostName} onChange={handleChange} />
+        <Text control={inputs.value} onChange={handleChange} />
+        <Text control={inputs.ttl} onChange={handleChange} />
+        
         <div className='flex gap-2 pb-8'>
           <button 
-            className="shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" 
+            className={styles.buttons.primary} 
             onClick={(e) => handleClick(e)}
           >
             {editRecord ? "Update Record" : "Add Record"}
           </button>
           <button 
-            className="shadow bg-orange-600 hover:bg-orange-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" 
+            className={styles.buttons.cancel} 
             onClick={(e) => handleCancel(e)}
           >
             Cancel
