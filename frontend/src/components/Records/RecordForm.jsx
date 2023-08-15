@@ -4,6 +4,7 @@ import Text from '../shared/Forms/Text'
 import Select from '../shared/Forms/Select'
 import recordTypeService from '../../services/recordTypeService'
 import styles from '../styles'
+import validator from '../shared/Forms/validator'
 
 
 const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord}) => {
@@ -13,6 +14,8 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
       label: 'Name',
       value: editRecord ? editRecord.name : '',
       required: true,
+      validator: 'isText',
+      min: 2,
       error: false,
       errorMessage: '',
 
@@ -22,6 +25,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
       label: 'Description',
       value: editRecord ? editRecord.description : '',
       required: false,
+      validator: 'isText',
       error: false,
       errorMessage: '',
 
@@ -31,6 +35,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
       label: 'Lookup',
       value: editRecord ? editRecord.lookup : '',
       required: false,
+      validator: 'isText',
       error: false,
       errorMessage: '',
 
@@ -38,8 +43,9 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     hostName: {
       name: 'hostName',
       label: 'Host',
-      value: editRecord ? editRecord.host : '',
+      value: editRecord ? editRecord.host : '@',
       required: false,
+      validator: 'isText',
       error: false,
       errorMessage: '',
 
@@ -50,22 +56,24 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
       value: editRecord ? editRecord.value : '',
       required: true,
       error: false,
+      validator: 'isText',
       errorMessage: '',
 
     },
     ttl: {
       name: 'ttl',
       label: 'TTL (Time to live in seconds)',
-      value: editRecord ? editRecord.ttl : '',
+      value: editRecord ? editRecord.ttl : 3600,
       required: true,
       error: false,
+      validator: 'isNumber',
       errorMessage: '',
 
     },
-    recordType: {
-      name: 'recordType',
+    recordTypeId: {
+      name: 'recordTypeId',
       label: 'Record Type',
-      value: editRecord ? editRecord.record_type : '',
+      value: editRecord ? editRecord.record_type : '1',
       required: true,
       error: false,
       errorMessage: '',
@@ -98,48 +106,77 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
       }
     })
   }
+
   const handleCancel = (e) => {
     e.preventDefault()
     setEditRecord(null)
     setShowAddForm(false)
   }
 
+  const setInvalid = (field, message) => {
+    setInputs(prevInputs => {
+      return {
+        ...prevInputs,
+        [field]: {
+          ...prevInputs[field],
+          error: true,
+          errorMessage: message
+        }
+      }
+    })
+  }
+
   //TODO - do validations
   const handleClick = async (e) => {
     e.preventDefault()
     let valid = true
-    if ( !(validateDomain(inputs.domain.value)) ) {
-      valid = false
-      setInputs(prevInputs => {
-        return {
-          ...prevInputs,
-          domain: {
-            ...prevInputs.domain,
-            error: true,
-            errorMessage: 'Invalid domain name'
-          }
+    /* Validate inputs */
+    for (const field in inputs) {
+      if (inputs[field].required && !inputs[field].value) {
+        valid = false
+        setInvalid(field, `${inputs[field].label} is required`)
+      } else if (inputs[field].validator && inputs[field].validator === 'isText') {
+        try{
+          const isValid = validator.isText(
+            inputs[field].value,
+            inputs[field].label, 
+            inputs[field].min? inputs[field].min : undefined,
+            inputs[field].max? inputs[field].max : undefined
+            )
+          if (isValid.valid === false) {
+            valid = false
+            setInvalid(field, isValid.message? isValid.message : `${inputs[field].label} is invalid`)
+          }  
+        } catch (err) {
+          valid = false
+          setInvalid(field, 'error with text input, check your entry and try again')
         }
-      })
-    }
-    if ( !(validateName(inputs.name.value)) ) {
-      valid = false
-      setInputs(prevInputs => {
-        return {
-          ...prevInputs,
-          name: {
-            ...prevInputs.name,
-            error: true,
-            errorMessage: 'Invalid record name - record name must be more then 3 characters long'
-          }
+      } else if (inputs[field].validator && inputs[field].validator === 'isNumber') {
+        try{
+          const isValid = validator.isNumber(
+            inputs[field].value,
+            inputs[field].label, 
+            inputs[field].min? inputs[field].min : undefined,
+            inputs[field].max? inputs[field].max : undefined
+            )
+          if (isValid.valid === false) {
+            valid = false
+            setInvalid(field, isValid.message? isValid.message : `${inputs[field].label} is invalid`)
+          }  
+        } catch (err) {
+          valid = false
+          setInvalid(field, 'error with number input, check your entry and try again')
         }
-      })
-    }
+      }
+    }    
+    
     if (valid) {
       /* Record inputs are valid lets submit */
-      const record = {
-        name: inputs.name.value,
-        domain: inputs.domain.value
+      const record = {}
+      for( const field in inputs ) {
+        record[field] = inputs[field].value
       }
+
       /* Check if the form is in update or new record mode */
       if(editRecord) {
         recordService.update(editRecord.id, record)
@@ -147,8 +184,8 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
         recordService.add(record)
       }
       setEditRecord(null)
-      setShowAddForm(false)
       setUpdateRecords(prev => prev + 1)
+      setShowAddForm(false)
     }
   }
  
@@ -163,7 +200,17 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     <>
     <h1>{editRecord ? `Edit Record: ${editRecord.type} "(${editRecord.name})"` : "Add a record" }</h1>
       <form className='w-full pt-7'>
-        <Select control={inputs.recordType} options={recordTypes} onChange={handleChange} />
+        <Select control={inputs.recordTypeId}
+          options={
+            recordTypes.map(type => {
+              return {
+                value: type.id,
+                label: type.name
+              }
+            })
+          }
+          onChange={handleChange}
+        />
         <Text control={inputs.name} onChange={handleChange} />
         <Text control={inputs.description} onChange={handleChange} />
         <Text control={inputs.lookupString} onChange={handleChange} />  

@@ -59,4 +59,16 @@ router.put('/:id', RecordFinder, SessionExtractor, AuthHandler, async (req, res)
   }
 });
 
+router.delete('/:id', RecordFinder, SessionExtractor, AuthHandler, async (req, res) => {
+  try {
+    await req.record.destroy();
+    res.status(200).end();
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({
+      error: `Problem deleting record: "${err.message}"`
+    });
+  }
+});
+
 module.exports = router;

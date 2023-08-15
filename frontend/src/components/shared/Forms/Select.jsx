@@ -17,10 +17,10 @@ const Select = ({ control, options, onChange }) => {
          {options && options.map((option) => {
               return (
                 <option 
-                  key={option.id} 
-                  value={option.name}
+                  key={option.value} 
+                  value={option.value}
                 >
-                  {option.name}
+                  {option.label}
                 </option>
               )
             })

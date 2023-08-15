@@ -31,6 +31,7 @@ const update = async (id, record) => {
 }
 
 const remove = async (id) => {
+  console.log(id)
   try {
     const req = await axios.delete(`${baseUrl}/records/${id}`)
     return req.data
