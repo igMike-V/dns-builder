@@ -1,7 +1,11 @@
 <a name="readme-top"></a>
-# DNS Record Builder
+# DNS Record Helper
+#### Video Demo:  <URL HERE>
+#### Description
 
-This project aims to build a simple interface to provide DNS entry values and check connection status for domains. DNS Record builder allows logged in users to create: `Records`, `Sites`, and `Record` `Templates`.  Sites can have any number of `Records` or `Templates` that can be connected by a logged in user. The software allows non logged in users to view `Sites` along with the associated `Records` and `Templates` via a link created by a logged in user.  Since DNS records are public there is no pressing need to provide any sort of token authentication to simply view records, therefore site lookup is done via url parameters.
+This project aims to build a simple interface to provide DNS entry values and check connection status for domains. DNS Record builder allows logged in users to create: `Records`, `Sites`, and `Record` `Templates`.  Sites can have any number of `Records` or `Templates` that can be connected by a logged in user. The software allows non logged in users to view `Sites` along with the associated `Records` and `Templates` via a link created by a logged in user.  Since DNS records are public there is no pressing need to provide any sort of token or cookie authentication to simply view records, therefore site lookup is done via url parameters.
+
+NOTE: as of version 1.0.0 Templates is not yet functional.
 
 
 <!-- TABLE OF CONTENTS -->
@@ -45,6 +49,7 @@ This project aims to build a simple interface to provide DNS entry values and ch
 ### Built With
 ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white)
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
 ![Sequelize](https://img.shields.io/badge/Sequelize-52B0E7?style=for-the-badge&logo=Sequelize&logoColor=white)
@@ -61,7 +66,7 @@ This project is organized as a MonoRepo.  The frontend and backend are located i
 
 Database for development is included in a docker-compose file found in the main directory.  you will need to have docker installed on your machine or an external MariaDB that you can connect to for development.  We will only be discussing the included docker image from here on out, however configuring an external database can be done by updating environment variables from a .env file in the server directory.
 
-#### Sample .env file
+#### Sample .env
 ```
 DATABASE_URL=localhost
 DB_PORT=3306
@@ -120,13 +125,14 @@ Navigate to the "frontend" directory
 ## Roadmap
 
 - [✔️] Store data to a database
-- [ ] add estimation of TTL and testing of dns
 - [✔️] form validation
+- [✔️] Custom records per domain
+- [ ] Public facing page that retrieves the site with records
+- [ ] add estimation of TTL and testing of dns
+- [ ] DNS LOOKUPS
+- [ ] User management
 - [ ] SPF builder (for clients with multiple SPF records)
 - [ ] connect registrar APIs for one-click updates.
-- [✔️] Custom records per domain
-- [ ] DNS LOOKUPS
-- [✔️] User management
 
 See the [open issues](https://github.com/igMike-V/dns-builder/issues) for a full list of proposed features (and known issues).
 
