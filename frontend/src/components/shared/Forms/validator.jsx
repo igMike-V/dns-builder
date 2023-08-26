@@ -1,5 +1,9 @@
 /* Custom validators */
-const isText = (str, fieldName = field, minLen = 0, maxLen = null) => {
+const isText = (str, fieldName = 'field', minLen = 0, maxLen = null) => {
+  const isValid = {
+    valid: true,
+    message: ''
+  }
     if (typeof str !== 'string') {
       isValid.valid = false  
       isValid.message = `Invalid input type`
@@ -12,10 +16,10 @@ const isText = (str, fieldName = field, minLen = 0, maxLen = null) => {
       isValid.valid = false  
       isValid.message = `${fieldName} must be at less then ${maxLen} characters long`
     }
-    return str
+    return isValid
 }
 
-const isNumber = (num, fieldName = field, min = 0, max = null) => {
+const isNumber = (num, fieldName = 'field', min = 0, max = null) => {
     const isValid = {
         valid: true,
         message: ''
@@ -32,10 +36,42 @@ const isNumber = (num, fieldName = field, min = 0, max = null) => {
         isValid.valid = false
         isValid.message = `${fieldName} must be at less then ${max}`
     }
-    return num
+    return isValid
+}
+
+
+const isDomain = (domain, fieldName = field) => {
+  const isValid = {
+    valid: true,
+    message: ''
+  }
+  if (domain.match(/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/)) {
+    return isValid
+  } else {
+    isValid.valid = false
+    isValid.message = `${fieldName} is not a valid domain`
+    return isValid
+  }
+}
+
+
+const setInvalid = (setInputs, field, message) => {
+  // setInputs is a passed state setter function
+  setInputs(prevInputs => {
+    return {
+      ...prevInputs,
+      [field]: {
+        ...prevInputs[field],
+        error: true,
+        errorMessage: message
+      }
+    }
+  })
 }
 
 export default {
   isText,
-  isNumber
+  isNumber, 
+  isDomain,
+  setInvalid
 }

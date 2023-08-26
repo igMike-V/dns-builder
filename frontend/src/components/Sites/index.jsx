@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { copyContent } from '../../utilities/utilities'
 import siteService from '../../services/siteService'
-import { useNavigate } from 'react-router-dom'
 
 import { useConfirm } from '../shared/ConfirmContext'
 import { HiPencilAlt, HiClipboardCopy, HiOutlineTrash } from 'react-icons/hi'
@@ -10,8 +9,6 @@ import styles from '../styles'
 
 const Sites = () => {
   const { isConfirmed } = useConfirm()
-  
-  const navigate = useNavigate()
 
   const [sites, setSites] = useState([])
   const [showAddForm, setShowAddForm] = useState(false)
@@ -28,6 +25,7 @@ const Sites = () => {
     const fetchSites = async () => {
       const sites = await siteService.getSites()
       if(sites) setSites(sites)
+      if(editSite) setEditSite(editSite)
     }
     fetchSites()
   }, [updateSites])
@@ -41,7 +39,7 @@ const Sites = () => {
   )
 
   const handleEditClick = (site) => {
-    setEditSite(site)
+    setEditSite(site.id)
     setShowAddForm(true)
   }
 
@@ -68,7 +66,7 @@ const Sites = () => {
 
   return (
     <section className='w-full pt-7'>
-      { showAddForm && <SiteForm setShowAddForm={setShowAddForm} setUpdateSites={setUpdateSites} setEditSite={setEditSite} editSite={editSite} /> }
+      { showAddForm && <SiteForm setShowAddForm={setShowAddForm} setUpdateSites={setUpdateSites} sites={sites} setSites={setSites} setEditSite={setEditSite} editSite={editSite} /> }
       <header className='flex flex-row justify-between'>
         <h1>Site List: </h1>
         {!showAddForm && <button className={styles.buttons.primary} onClick={newSite}>Add Site</button>}

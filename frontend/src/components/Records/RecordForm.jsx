@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import recordService from '../../services/recordService'
-import Text from '../shared/Forms/Text'
-import Select from '../shared/Forms/Select'
+import {Text, Select} from '../shared/Forms'
 import recordTypeService from '../../services/recordTypeService'
 import styles from '../styles'
 import validator from '../shared/Forms/validator'
 
 
 const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord}) => {
+  console.log(editRecord)
   const [inputs, setInputs] = useState({
     name: {
       name: 'name',
@@ -113,20 +113,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     setShowAddForm(false)
   }
 
-  const setInvalid = (field, message) => {
-    setInputs(prevInputs => {
-      return {
-        ...prevInputs,
-        [field]: {
-          ...prevInputs[field],
-          error: true,
-          errorMessage: message
-        }
-      }
-    })
-  }
 
-  //TODO - do validations
   const handleClick = async (e) => {
     e.preventDefault()
     let valid = true
@@ -134,7 +121,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     for (const field in inputs) {
       if (inputs[field].required && !inputs[field].value) {
         valid = false
-        setInvalid(field, `${inputs[field].label} is required`)
+        validator.setInvalid(setInputs, field, `${inputs[field].label} is required`)
       } else if (inputs[field].validator && inputs[field].validator === 'isText') {
         try{
           const isValid = validator.isText(
@@ -145,11 +132,11 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
             )
           if (isValid.valid === false) {
             valid = false
-            setInvalid(field, isValid.message? isValid.message : `${inputs[field].label} is invalid`)
+            validator.setInvalid(setInputs, field, isValid.message? isValid.message : `${inputs[field].label} is invalid`)
           }  
         } catch (err) {
           valid = false
-          setInvalid(field, 'error with text input, check your entry and try again')
+          validator.setInvalid(setInputs, field, 'error with text input, check your entry and try again')
         }
       } else if (inputs[field].validator && inputs[field].validator === 'isNumber') {
         try{
@@ -161,11 +148,11 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
             )
           if (isValid.valid === false) {
             valid = false
-            setInvalid(field, isValid.message? isValid.message : `${inputs[field].label} is invalid`)
+            validator.setInvalid(setInputs, field, isValid.message? isValid.message : `${inputs[field].label} is invalid`)
           }  
         } catch (err) {
           valid = false
-          setInvalid(field, 'error with number input, check your entry and try again')
+          validator.setInvalid(setInputs, field, 'error with number input, check your entry and try again')
         }
       }
     }    

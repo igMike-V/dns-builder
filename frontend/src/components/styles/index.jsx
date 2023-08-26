@@ -9,7 +9,7 @@ const styles = {
   },
   buttons: {
     primary: 'shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-3 rounded',
-    cancel: 'shadow bg-orange-600 hover:bg-orange-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded',
+    cancel: 'shadow bg-orange-600 hover:bg-orange-400 focus:shadow-outline focus:outline-none text-white font-bold py-1 px-3 rounded',
   },
   icons: 'text-xl text-gray-600 hover:text-teal-600 cursor-pointer'
 

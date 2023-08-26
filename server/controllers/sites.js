@@ -1,4 +1,4 @@
-const { Site, Template, Record } = require('../models');
+const { Site, Template, Record, RecordType } = require('../models');
 const router = require('express').Router();
 
 const SessionExtractor = require('../middleware/SessionExtractor');
@@ -31,10 +31,18 @@ router.post('/', SessionExtractor, AuthHandler, async (req, res) => {
   }
 });
 
-router.get('/', SessionExtractor, AuthHandler,  async (req, res) => {
+router.get('/', SessionExtractor,  async (req, res) => {
   const sites = await Site.findAll({
     attributes: {exclude: ['createdAt', 'updatedAt']},
     include: [
+      {
+        model: Record,
+        include: {
+          model: RecordType,
+        },
+        attributes: {exclude: ['createdAt', 'updatedAt']},
+        through: {attributes: ['id']}
+      },
       {
         model: Template,
         include: { 
@@ -43,11 +51,7 @@ router.get('/', SessionExtractor, AuthHandler,  async (req, res) => {
         },
         attributes: {exclude: ['createdAt', 'updatedAt']}
       },
-      {
-        model: Record,
-        attributes: {exclude: ['createdAt', 'updatedAt']}
-      }
-  ],
+  ]
   });
   res.status(200).json(sites);
 });

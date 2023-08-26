@@ -30,7 +30,6 @@ const updateSite = async (id, site) => {
   }
 }
 
-
 const deleteSite = async (id) => {
   try {
     const req = await axios.delete(`${baseUrl}/sites/${id}`)
@@ -40,4 +39,24 @@ const deleteSite = async (id) => {
   }
 }
 
-export default { getSites, addSite, updateSite, deleteSite }
+const addRecord = async (siteId, recordId) => {
+  try {
+    const req = await axios.post(`${baseUrl}/site-records/`, { siteId, recordId })
+    return req.data
+  } catch (err) {
+    if(err.response.data.error) console.error(err.response.data.error)
+    else
+    console.error(err)
+  }
+}
+
+const removeRecord = async (siteRecordId) => {
+  try {
+    await axios.delete(`${baseUrl}/site-records/${siteRecordId}`)
+    return true
+  } catch (err) {
+    console.error(err)
+  }
+}
+
+export default { getSites, addSite, updateSite, deleteSite, addRecord, removeRecord }

@@ -13,7 +13,8 @@ const Select = ({ control, options, onChange }) => {
         name={control.name} 
         value={control.value} 
         onChange={(e) => onChange(e)}
-      >
+      >   
+        <option disabled value="" >Select a {control.name}</option>
          {options && options.map((option) => {
               return (
                 <option 

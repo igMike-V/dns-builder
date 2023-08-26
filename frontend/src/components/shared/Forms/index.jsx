@@ -1,5 +1,7 @@
 import Text from './Text'
+import Select from './Select'
 
-export default Forms = {
-  text: Text
+export {
+  Text,
+  Select
 } 

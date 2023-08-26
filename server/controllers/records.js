@@ -14,7 +14,7 @@ const RecordFinder = async (req, res, next) => {
   }
 }
 
-router.post('/', SessionExtractor, AuthHandler, async (req, res) => {
+router.post('/', SessionExtractor, async (req, res) => {
   const body = req.body;
 
   try {
