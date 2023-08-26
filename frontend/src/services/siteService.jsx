@@ -17,7 +17,7 @@ const addSite = async (site) => {
     const req = await axios.post(`${baseUrl}/sites`, site)
     return req.data
   } catch (err) {
-    console.error(err.response.data.error)
+    console.error(err)
   }
 }
 
@@ -26,7 +26,7 @@ const updateSite = async (id, site) => {
     const req = await axios.put(`${baseUrl}/sites/${id}`, site)
     return req.data
   } catch (err) {
-    console.error(err.response.data.error)
+    console.error(err)
   }
 }
 

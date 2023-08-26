@@ -5,14 +5,12 @@ import recordTypeService from '../../services/recordTypeService'
 import styles from '../styles'
 import validator from '../shared/Forms/validator'
 
-
-const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord}) => {
-  console.log(editRecord)
-  const [inputs, setInputs] = useState({
+const recordFormInitialState = (recordForEdit) => {
+  return {
     name: {
       name: 'name',
       label: 'Name',
-      value: editRecord ? editRecord.name : '',
+      value: recordForEdit ? recordForEdit.name : '',
       required: true,
       validator: 'isText',
       min: 2,
@@ -23,7 +21,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     description: {
       name: 'description',
       label: 'Description',
-      value: editRecord ? editRecord.description : '',
+      value: recordForEdit ? recordForEdit.description : '',
       required: false,
       validator: 'isText',
       error: false,
@@ -33,7 +31,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     lookupString: {
       name: 'lookupString',
       label: 'Lookup',
-      value: editRecord ? editRecord.lookup : '',
+      value: recordForEdit ? recordForEdit.lookupString : '',
       required: false,
       validator: 'isText',
       error: false,
@@ -42,8 +40,8 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     },
     hostName: {
       name: 'hostName',
-      label: 'Host',
-      value: editRecord ? editRecord.host : '@',
+      label: 'Host Name',
+      value: recordForEdit ? recordForEdit.hostName : '@',
       required: false,
       validator: 'isText',
       error: false,
@@ -53,7 +51,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     value: {
       name: 'value',
       label: 'Value',
-      value: editRecord ? editRecord.value : '',
+      value: recordForEdit ? recordForEdit.value : '',
       required: true,
       error: false,
       validator: 'isText',
@@ -63,7 +61,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     ttl: {
       name: 'ttl',
       label: 'TTL (Time to live in seconds)',
-      value: editRecord ? editRecord.ttl : 3600,
+      value: recordForEdit ? recordForEdit.ttl : 3600,
       required: true,
       error: false,
       validator: 'isNumber',
@@ -73,12 +71,18 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     recordTypeId: {
       name: 'recordTypeId',
       label: 'Record Type',
-      value: editRecord ? editRecord.record_type : '1',
+      value: recordForEdit ? recordForEdit.recordType.id : '0',
       required: true,
       error: false,
       errorMessage: '',
     }
-  })
+  }
+}
+
+
+const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord, records, setRecords}) => {
+  const recordForEdit= records.find(record => record.id === editRecord)
+  const [inputs, setInputs] = useState(recordFormInitialState(recordForEdit))
 
   const [recordTypes, setRecordTypes] = useState([])
 
@@ -88,7 +92,8 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
       setRecordTypes(typeOptions)
     }
     getRecordTypes()
-  }, [])
+    setInputs(recordFormInitialState(recordForEdit))
+  }, [recordForEdit])
   
 
   const handleChange = (e) => {
@@ -105,6 +110,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
         }
       }
     })
+    console.log(inputs)
   }
 
   const handleCancel = (e) => {
@@ -122,7 +128,8 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
       if (inputs[field].required && !inputs[field].value) {
         valid = false
         validator.setInvalid(setInputs, field, `${inputs[field].label} is required`)
-      } else if (inputs[field].validator && inputs[field].validator === 'isText') {
+      }
+      if (inputs[field].validator && inputs[field].validator === 'isText') {
         try{
           const isValid = validator.isText(
             inputs[field].value,
@@ -138,7 +145,8 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
           valid = false
           validator.setInvalid(setInputs, field, 'error with text input, check your entry and try again')
         }
-      } else if (inputs[field].validator && inputs[field].validator === 'isNumber') {
+      }
+      if (inputs[field].validator && inputs[field].validator === 'isNumber') {
         try{
           const isValid = validator.isNumber(
             inputs[field].value,
@@ -155,6 +163,11 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
           validator.setInvalid(setInputs, field, 'error with number input, check your entry and try again')
         }
       }
+      console.log(field, inputs[field].value)
+      if (field === 'recordTypeId' && inputs[field].value === '0') {
+        valid = false
+        validator.setInvalid(setInputs, field, `${inputs[field].label} is required`)
+      }
     }    
     
     if (valid) {
@@ -165,8 +178,8 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
       }
 
       /* Check if the form is in update or new record mode */
-      if(editRecord) {
-        recordService.update(editRecord.id, record)
+      if(recordForEdit) {
+        recordService.update(recordForEdit.id, record)
       } else {
         recordService.add(record)
       }
@@ -185,7 +198,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
 
   return (
     <>
-    <h1>{editRecord ? `Edit Record: ${editRecord.type} "(${editRecord.name})"` : "Add a record" }</h1>
+    <h1>{recordForEdit ? `Edit "${recordForEdit.recordType.name}" record: ${recordForEdit.name}` : "Add a record" }</h1>
       <form className='w-full pt-7'>
         <Select control={inputs.recordTypeId}
           options={
@@ -210,7 +223,7 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
             className={styles.buttons.primary} 
             onClick={(e) => handleClick(e)}
           >
-            {editRecord ? "Update Record" : "Add Record"}
+            {recordForEdit? "Update Record" : "Add Record"}
           </button>
           <button 
             className={styles.buttons.cancel} 

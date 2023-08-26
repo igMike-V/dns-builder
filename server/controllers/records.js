@@ -36,7 +36,7 @@ router.get('/', async (_req, res) => {
     attributes: { exclude: ['createdAt', 'updatedAt', 'recordTypeId'] },
     include: {
       model: RecordType,
-      attributes: ['name']
+      attributes: ['name', 'id']
     }
   });
   res.status(200).json(blogs);

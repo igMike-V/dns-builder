@@ -242,8 +242,8 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
                       value: record.id,
                       label: record.name
                     }
-                  }
-                  )}
+                  })
+                }
                 onChange={handleRecordChange}
               />
               <button className={styles.buttons.primary} onClick={(e) => addRecord(e, site.id, recordInputs.record)}>Add</button>

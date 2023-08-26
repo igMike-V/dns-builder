@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import { createBrowserRouter, RouterProvider} from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Navigate} from 'react-router-dom'
 
 import {AuthContextProvider} from './components/shared/AuthContext'
 import { ConfirmContextProvider } from './components/shared/ConfirmContext'
@@ -11,7 +11,6 @@ import Root from './Root'
 import { LoginForm } from './components/LoginForm'
 import { ErrorPage } from './components/ErrorPage'
 import Sites from './components/Sites'
-import Templates from './components/Templates'
 import Records from './components/Records'
 
 
@@ -24,12 +23,13 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
-        path: 'sites',
-        element: <Sites/>,
+        path: '/',
+        element: <Navigate to="/sites" replace />,
       },
       {
-        path: 'templates',
-        element: <Templates/>,
+        path: 'sites',
+        element: <Sites/>,
+        
       },
       {
         path: 'records',

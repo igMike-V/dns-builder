@@ -36,7 +36,7 @@ const Records = () => {
   )
 
   const handleEditClick = async(record) => {
-    await setEditRecord(record)
+    await setEditRecord(record.id)
     setShowAddForm(true)
   }
 
@@ -54,7 +54,7 @@ const Records = () => {
 
   return (
     <section className='w-full pt-7'>
-      { showAddForm && <RecordForm setShowAddForm={setShowAddForm} setUpdateRecords={setUpdateRecords} setEditRecord={setEditRecord} editRecord={editRecord} /> }
+      { showAddForm && <RecordForm setShowAddForm={setShowAddForm} setUpdateRecords={setUpdateRecords} records={records} setRecords={setRecords} setEditRecord={setEditRecord} editRecord={editRecord} /> }
       <header className='flex flex-row justify-between'>
         <h1>Record List: </h1>
         {!showAddForm && <button className={styles.buttons.primary} onClick={newRecord}>Add Record</button>}

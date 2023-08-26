@@ -15,7 +15,6 @@ const Header = () => {
         <section className='flex flex-row justify-end items-center gap-4'>
           <a href="/sites" className="text-gray-700 font-bold hover:text-gray-900">Sites</a>
           <a href="/records" className="text-gray-700 font-bold hover:text-gray-900">Records</a>
-          <a href="/templates" className="text-gray-700 font-bold hover:text-gray-900">Templates</a>
           <LogoutButton/>
         </section>
        

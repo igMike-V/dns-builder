@@ -2,6 +2,7 @@ import styles from "../../styles";
 
 /* options should be an array of objects with values name and id  */
 const Select = ({ control, options, onChange }) => {
+  console.log(control)
    return (
       <div className={styles.forms.inputContainer}>
       <label className={styles.forms.label} htmlFor={control.name} >
@@ -11,10 +12,10 @@ const Select = ({ control, options, onChange }) => {
         className={styles.forms.inputs.select}
         id={control.name} 
         name={control.name} 
-        value={control.value} 
+        value={control.value}
         onChange={(e) => onChange(e)}
       >   
-        <option disabled value="" >Select a {control.name}</option>
+        <option disabled value="0" >Select a {control.label}</option>
          {options && options.map((option) => {
               return (
                 <option 
