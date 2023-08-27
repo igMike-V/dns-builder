@@ -12,6 +12,7 @@ import { LoginForm } from './components/LoginForm'
 import { ErrorPage } from './components/ErrorPage'
 import Sites from './components/Sites'
 import Records from './components/Records'
+import SingleSite from './components/SingleSite'
 
 
 
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
         path: 'login',
         element: <LoginForm />,
       },
+      {
+        path: 'site/:url',
+        element: <SingleSite />,
+      }
     ]
     
   },

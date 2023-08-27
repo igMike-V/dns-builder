@@ -56,6 +56,38 @@ router.get('/', SessionExtractor,  async (req, res) => {
   res.status(200).json(sites);
 });
 
+// Get one site by site url
+router.get('/:url', SessionExtractor,  async (req, res) => { 
+  try {
+    const urlString = req.params.url.replace('_', '.');
+    const site = await Site.findOne({
+      where: { domain: urlString },
+      attributes: {exclude: ['createdAt', 'updatedAt']},
+      include: [
+        {
+          model: Record,
+          include: {
+            model: RecordType,
+          },
+          attributes: {exclude: ['createdAt', 'updatedAt']},
+          through: {attributes: ['id']}
+        },
+        {
+          model: Template,
+          include: { 
+            model: Record,
+            attributes: {exclude: ['createdAt', 'updatedAt']}
+          },
+          attributes: {exclude: ['createdAt', 'updatedAt']}
+        },
+    ]
+    });
+    res.status(200).json(site);
+  } catch (err) {
+    res.status(404).end();
+  }
+});
+
 router.put('/:id', SiteFinder, SessionExtractor, AuthHandler, async (req, res) => {
   if (req.body) {
     try {

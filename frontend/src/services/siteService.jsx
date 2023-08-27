@@ -12,6 +12,15 @@ const getSites = async () => {
   }
 }
 
+const getSite = async (domain) => {
+  try {
+    const req = await axios.get(`${baseUrl}/sites/${domain}`)
+    return req.data
+  } catch (err) {
+    console.error(err.response.data.error)
+  }
+}
+
 const addSite = async (site) => {
   try {
     const req = await axios.post(`${baseUrl}/sites`, site)
@@ -59,4 +68,4 @@ const removeRecord = async (siteRecordId) => {
   }
 }
 
-export default { getSites, addSite, updateSite, deleteSite, addRecord, removeRecord }
+export default { getSites, getSite, addSite, updateSite, deleteSite, addRecord, removeRecord }

@@ -17,6 +17,10 @@ Site.init({
     type: DataTypes.STRING,
     allowNull: false,
     unique: true
+  },
+  ip: {
+    type: DataTypes.STRING,
+    allowNull: false,
   }
 }, {
   sequelize,

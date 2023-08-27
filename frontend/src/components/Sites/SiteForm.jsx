@@ -11,6 +11,7 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
     if (s.id === editSite) return s
   }) : null
 
+  console.log(site)
   const formInitialState = {
     name: {
       name: 'name',
@@ -28,6 +29,15 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
       value: site ? site.domain : '',
       required: true,
       validator: 'isDomain',
+      error: false,
+      errorMessage: ''
+    },
+    ip: {
+      name: 'ip',
+      label: 'Server IP Address',
+      value: site ? site.ip : '',
+      required: true,
+      validator: 'isIp',
       error: false,
       errorMessage: ''
     }
@@ -158,7 +168,9 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
       if (inputs[field].required && !inputs[field].value) {
         valid = false
         validator.setInvalid(setInputs, field, `${inputs[field].label} is required`)
-      } else if (inputs[field].validator && inputs[field].validator === 'isText') {
+      }
+      
+      if (inputs[field].validator && inputs[field].validator === 'isText') {
         try{
           const isValid = validator.isText(
             inputs[field].value,
@@ -173,7 +185,9 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
         } catch (err) {
           console.error(err)
         }
-      } else if (inputs[field].validator && inputs[field].validator === 'isDomain') {
+      }
+      
+      if (inputs[field].validator && inputs[field].validator === 'isDomain') {
         try{
           const isValid = validator.isDomain(
             inputs[field].value,
@@ -188,12 +202,31 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
           validator.setInvalid(setInputs, field, 'error with domain input, check your entry and try again')
         }
       }
+
+      if (inputs[field].validator && inputs[field].validator === 'isIp') {
+        try{
+          const isValid = validator.isIp(
+            inputs[field].value,
+            inputs[field].label
+            )
+          if (isValid.valid === false) {
+            valid = false
+            validator.setInvalid(setInputs, field, isValid.message? isValid.message : `${inputs[field].label} is invalid`)
+          }  
+        } catch (err) {
+          valid = false
+          console.log(err)
+          validator.setInvalid(setInputs, field, 'error with Ip Address input, input a valid IPv4 address and try again')
+        }
+      }
     }
+    
     if (valid) {
       /* Site inputs are valid lets submit */
       const siteToAdd = {
         name: inputs.name.value,
-        domain: inputs.domain.value
+        domain: inputs.domain.value,
+        ip: inputs.ip.value
       }
       /* Check if the form is in update or new site mode */
       if(site) {
@@ -213,6 +246,7 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
       <form className='w-full pt-7'>
         <Text control={inputs.name} onChange={handleChange} />
         <Text control={inputs.domain} onChange={handleChange} />
+        <Text control={inputs.ip} onChange={handleChange} />
         {site &&
         <div className='flex flex-col gap-2 pb-8'>
           {records && 

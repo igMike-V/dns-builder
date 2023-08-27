@@ -54,6 +54,21 @@ const isDomain = (domain, fieldName = field) => {
   }
 }
 
+const isIp = (ip, fieldName = field) => {
+  const isValid = {
+    valid: true,
+    message: ''
+  }
+  const ipPattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  if (ip.match(ipPattern)) {
+    return isValid
+  } else {
+    isValid.valid = false
+    isValid.message = `${fieldName} is not a valid IP address`
+    return isValid
+  }
+}
+
 
 const setInvalid = (setInputs, field, message) => {
   // setInputs is a passed state setter function
@@ -73,5 +88,6 @@ export default {
   isText,
   isNumber, 
   isDomain,
-  setInvalid
+  setInvalid,
+  isIp
 }
