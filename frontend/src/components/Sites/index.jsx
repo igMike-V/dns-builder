@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { copyContent } from '../../utilities/utilities'
 import siteService from '../../services/siteService'
+import {useNavigate} from 'react-router-dom'
 
 import { useConfirm } from '../shared/ConfirmContext'
 import { HiPencilAlt, HiClipboardCopy, HiOutlineTrash } from 'react-icons/hi'
@@ -9,6 +10,7 @@ import styles from '../styles'
 
 const Sites = () => {
   const { isConfirmed } = useConfirm()
+  const navigate = useNavigate()
 
   const [sites, setSites] = useState([])
   const [showAddForm, setShowAddForm] = useState(false)
@@ -83,10 +85,10 @@ const Sites = () => {
           <tbody>
         {sites.map(site => {
           return (
-            <tr className={styles.table.trBody} key={site.id}>
-              <td className={styles.table.td}>{site.name}</td>
-              <td className={styles.table.td}>{site.domain}</td>
-              <td className={styles.table.td}>
+            <tr className={styles.table.trBody} key={site.id} >
+              <td className={styles.table.td} onClick={() => navigate(`/site/${site.domain.replace('.','_')}`)} >{site.name}</td>
+              <td className={styles.table.td} onClick={() => navigate(`/site/${site.domain.replace('.','_')}`)}>{site.domain}</td>
+              <td className={styles.table.td} >
                 <div className='flex gap-2 flex-row justify-end'>
                   <HiClipboardCopy 
                     className={styles.icons} 
