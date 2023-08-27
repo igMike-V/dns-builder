@@ -143,7 +143,6 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
         }
       })
     })
-    console.log(siteRecord)
   }
 
   const handleCancelAddRecord = (e) => {

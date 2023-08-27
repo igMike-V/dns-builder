@@ -61,7 +61,7 @@ const Sites = () => {
     //TODO - get set address in config
     //TODO - ensure dmain has no underscore
     //https://stackoverflow.com/questions/4938900/how-to-encode-periods-for-urls-in-javascript
-    return `http://localhost:5173/${domain.replace('.','_')}`
+    return `http://localhost:5173/site/${domain.replace('.','_')}`
   }
 
   return (
