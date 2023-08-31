@@ -11,9 +11,10 @@ const { connectToDatabase } = require('./util/db')
 
 /* Import routers object from controllers/index.js */
 const Routers = require('./controllers/')
+const { max } = require('./models/user')
 
 app.use(cors({
-  origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+  origin: FRONTEND_URL,
   credentials: true
 }))
 
@@ -31,7 +32,9 @@ Routers.forEach(({ endpoint, router }) => {
 //app.use(ErrorHandler)
 
 const start = async () => {
-  await connectToDatabase()
+  const maxRetries = 5
+  const retryDelay = 5000
+  await connectToDatabase(maxRetries, retryDelay) 
   app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`)
     console.log(`http://localhost:${PORT}`)
@@ -40,3 +43,23 @@ const start = async () => {
 }
 
 start()
+
+const { User } = require("../models")
+const router = require('express').Router()
+const bcrypt = require('bcrypt')
+
+const getNumberOfuser = async () => { 
+  const user = await User.findAndCountAll()
+  console.log(user.count)
+  return user.count
+}
+const numUsers = getNumberOfuser()
+
+if (numUsers === 0) {
+  console.log(`Creating Default user (demouser)`);
+  await User.create({
+    name: 'demouser',
+    email: 'demo@demo.com',
+    password: await bcrypt.hash('demopassword', 10)
+  })
+}
