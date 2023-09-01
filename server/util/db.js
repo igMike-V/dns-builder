@@ -22,16 +22,9 @@ const runMigrations = async () => {
   })
 }
 
-const sequelize = new Sequelize(
-  DB_NAME,
-  DB_USER,
-  DB_PASSWORD,
-  {
-    host: DATABASE_URL,
-    port: DB_PORT,
-    dialect: 'mariadb'
-  }
-)
+const sequelize = new Sequelize(DATABASE_URL);
+
+
 
 const connectToDatabase = async (maxRetries, retryDelay) => {
   let retries = 0
