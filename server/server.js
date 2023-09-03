@@ -55,15 +55,11 @@ const getNumberOfuser = async () => {
 }
 const numUsers = getNumberOfuser()
 
-const createDefaultUser = async () => { 
+if (numUsers === 0) {
+  console.log(`Creating Default user (demouser)`);
   await User.create({
     name: 'demouser',
     email: 'demo@demo.com',
     password: await bcrypt.hash('demopassword', 10)
   })
-}
-
-if (numUsers === 0) {
-  console.log(`Creating Default user (demouser)`);
-  createDefaultUser()
 }
