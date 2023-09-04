@@ -11,7 +11,6 @@ const { connectToDatabase } = require('./util/db')
 
 /* Import routers object from controllers/index.js */
 const Routers = require('./controllers/')
-const { max } = require('./models/user')
 
 app.use(cors({
   origin: FRONTEND_URL,
@@ -44,8 +43,7 @@ const start = async () => {
 
 start()
 
-const { User } = require("../models")
-const router = require('express').Router()
+const { User } = require("./models")
 const bcrypt = require('bcrypt')
 
 const getNumberOfuser = async () => { 
