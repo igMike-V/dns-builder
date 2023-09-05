@@ -177,9 +177,9 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
 
       /* Check if the form is in update or new record mode */
       if(recordForEdit) {
-        recordService.update(recordForEdit.id, record)
+        await recordService.update(recordForEdit.id, record)
       } else {
-        recordService.add(record)
+        await recordService.add(record)
       }
       setEditRecord(null)
       setUpdateRecords(prev => prev + 1)
