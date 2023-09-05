@@ -1,6 +1,6 @@
 <a name="readme-top"></a>
 # DNS Record Helper
-#### Video Demo:  <URL HERE>
+#### Video Demo:  https://youtu.be/WzDqM3xtUbQ
 #### Description
 
 This project aims to build a simple interface to provide DNS entry values and check connection status for domains. DNS Record builder allows logged in users to create: `Records`, `Sites`, and `Record` `Templates`.  Sites can have any number of `Records` or `Templates` that can be connected by a logged in user. The software allows non logged in users to view `Sites` along with the associated `Records` and `Templates` via a link created by a logged in user.  Since DNS records are public there is no pressing need to provide any sort of token or cookie authentication to simply view records, therefore site lookup is done via url parameters.
