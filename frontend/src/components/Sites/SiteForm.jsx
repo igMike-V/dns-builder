@@ -136,6 +136,9 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
       })
     }
 
+    console.log('SITE ID FOR AXIOS: ', siteId)
+    console.log('RECORD ID FOR AXIOS: ', record.value)
+
     const siteRecord = await siteService.addRecord(siteId, record.value)
     console.log(siteRecord)
     setSites(prevSites => {
