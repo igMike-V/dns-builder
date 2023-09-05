@@ -2,10 +2,7 @@ const { User } = require("../models")
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
 
-const SessionExtractor = require('../middleware/SessionExtractor');
-const AuthHandler = require('../middleware/AuthHandler');
-
-router.get('/', SessionExtractor, AuthHandler, async (_req, res) => {
+router.get('/', async (_req, res) => {
   try {
     const users = await User.findAll()
     res.send(users)
@@ -14,7 +11,7 @@ router.get('/', SessionExtractor, AuthHandler, async (_req, res) => {
   }
 })
 
-router.post('/', SessionExtractor, AuthHandler, async (req, res) => {
+router.post('/', async (req, res) => {
   try {  
     const { password } = req.body
     const saltRounds = 10
@@ -26,7 +23,7 @@ router.post('/', SessionExtractor, AuthHandler, async (req, res) => {
   }
 })
 
-router.put('/:id', SessionExtractor, AuthHandler, async (req, res) => {
+router.put('/:id', async (req, res) => {
   if (req.body.password) {
     const saltRounds = 10
     const hashedPassword = await bcrypt.hash(req.body.password, saltRounds)

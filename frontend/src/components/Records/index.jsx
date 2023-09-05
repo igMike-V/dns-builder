@@ -9,7 +9,6 @@ import styles from '../styles'
 
 const Records = () => {
   const { isConfirmed } = useConfirm()
-  const navigate = useNavigate()
   const [records, setRecords] = useState([])
   const [showAddForm, setShowAddForm] = useState(false)
   const [updateRecords, setUpdateRecords] = useState(0)
@@ -21,9 +20,13 @@ const Records = () => {
 
   /* Load records */
   useEffect(() => {
+    console.log('Records: useEffect')
     const fetchRecords = async () => {
       const allRecords = await recordService.get()
-      if(allRecords) setRecords(allRecords)
+      if (allRecords) {
+        console.log('Records: useEffect: allRecords', allRecords)
+        setRecords(allRecords)
+      }
     }
     fetchRecords()
   }, [updateRecords])
@@ -77,7 +80,7 @@ const Records = () => {
               <td className={styles.table.td}>{record.name}</td>
               <td className={styles.table.td}>{record.value}</td>
               <td className={styles.table.td}>
-                <div className='flex gap-2 flex-row justify-end'>
+                <div className='flex flex-row justify-end gap-2'>
                   <HiPencilAlt 
                     className={styles.icons} 
                     onClick={() => handleEditClick(record)}

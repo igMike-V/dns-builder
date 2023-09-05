@@ -11,9 +11,13 @@ const siteRecordsRouter = require('./siteRecords');
 const siteTemplatesRouter = require('./siteTemplates');
 const templateRecordsRouter = require('./templateRecords');
 
+// Middleware
+const SessionExtractor = require('../middleware/SessionExtractor');
+const DemoLock = require('../middleware/DemoLock');
+
 const Routers = [
   { endpoint: '/', router: homeRouter },
-  { endpoint: '/api/users', router: usersRouter },
+  { endpoint: '/api/users', router: usersRouter , middleware: [SessionExtractor, DemoLock] },
   { endpoint: '/api/login', router: loginRouter },
   { endpoint: '/api/logout', router: logoutRouter },
   { endpoint: '/api/records', router: recordsRouter },

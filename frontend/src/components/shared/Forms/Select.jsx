@@ -2,7 +2,6 @@ import styles from "../../styles";
 
 /* options should be an array of objects with values name and id  */
 const Select = ({ control, options, onChange }) => {
-  console.log(control)
    return (
       <div className={styles.forms.inputContainer}>
       <label className={styles.forms.label} htmlFor={control.name} >

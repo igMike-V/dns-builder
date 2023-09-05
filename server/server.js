@@ -13,7 +13,7 @@ const { connectToDatabase } = require('./util/db')
 const Routers = require('./controllers/')
 
 app.use(cors({
-  origin: FRONTEND_URL,
+  origin: FRONTEND_URL, 
   credentials: true
 }))
 
@@ -22,9 +22,13 @@ app.use(bodyParser.json())
 app.use(cookieParser())
 
 /* Routes */
-Routers.forEach(({ endpoint, router }) => {
+Routers.forEach(({ endpoint, router, middleware }) => {
   console.log(`Registering endpoint: ${endpoint}`)
-  app.use(endpoint, router)
+  if (middleware) {
+    app.use(endpoint, middleware, router)
+  } else {
+    app.use(endpoint, router)
+  }
 })
 
 /* Final middleware for errors */
