@@ -1,12 +1,16 @@
-import ToolTip from '../ToolTip'
+import ToolTip from '../shared/ToolTip'
 import { HiOutlineClipboardCopy, HiClipboardCopy } from 'react-icons/hi'
 import { BsCloudSlash, BsFillCloudCheckFill } from 'react-icons/bs'
 import { useEffect, useState } from 'react'
 // Creates a single entry of a dns record
 
 
-export const Record = ({ recordContent, ip, site}) => {
-  const { name, type, hostName, value, ttl, description, id, connectString } = recordContent
+const SiteRecord = ({siteRecord, ip, site}) => {
+  const { name, hostName, ttl, description, id, lookupString } = siteRecord
+  const type = siteRecord.recordType.name
+  let value = siteRecord.value
+  if(value === 'n/a') value = null
+
   const [copyMessages, setCopyMessages] = useState({
     host: null,
     value: null,
@@ -27,15 +31,15 @@ export const Record = ({ recordContent, ip, site}) => {
   }
 
   useEffect(() => {
-    if (connectString) {
+    if (lookupString !== '') {
 
       //TODO this whole section will need to be replaced with a backend call to a dns server
       const getRecords = async (domain) => {
         try {
         let url = `https://dns.google.com/resolve?name=${domain}&type=A`
         let compareString = ip
-        switch (connectString) {
-          case true:
+        switch (lookupString) {
+          case null:
             url = `https://dns.google.com/resolve?name=${domain}&type=A`
             compareString = ip
             break
@@ -48,6 +52,7 @@ export const Record = ({ recordContent, ip, site}) => {
         } 
           const response = await fetch(url);
           const data = await response.json();
+          console.log('data', data)
           
           if (data.Answer) {
             // Extract the A records from the DNS response
@@ -55,6 +60,7 @@ export const Record = ({ recordContent, ip, site}) => {
             const aRecords = data.Answer
             const rec = aRecords[0]
             if (rec.data.replace(/\.$/, '') === compareString) {
+              console.log(`${rec.name} is connected to ${rec.data} TTL:${rec.TTL}`)
               setConnection(1)
               setConnectMessage(`${rec.name} is connected to ${rec.data} TTL:${rec.TTL}`)
             } else {
@@ -72,10 +78,12 @@ export const Record = ({ recordContent, ip, site}) => {
           return null;
         }
       }
-      
+
       getRecords(site)
     }
   }, [])
+
+  console.log(connection)
   
   return (
     <div className='max-w-4xl p-4 mb-8 bg-gray-100 rounded-lg' >
@@ -86,14 +94,14 @@ export const Record = ({ recordContent, ip, site}) => {
         <ToolTip tip={description}>
           <div className='flex justify-center w-6 h-6 text-center text-white bg-gray-600 rounded-full cursor-pointer hover:bg-pink-600'>?</div>
         </ToolTip>
-        {connectString &&
+        {connection > 0 &&
           <div className='flex items-center gap-2'>
             <span>Status: </span>
             {connection > 0
-              ? <BsFillCloudCheckFill className='text-2xl text-green-500' />
+              ? <BsFillCloudCheckFill className='text-2xl text-teal-500' />
               : <BsCloudSlash className={`${connection === -1 ? 'text-red-600' : 'text-grey-500'} text-2xl`} />
             }
-            {connectMessage && <span className='text-xs text-green-700'>{connectMessage}</span>}
+            {connectMessage && <span className='text-xs text-teal-700'>{connectMessage}</span>}
           </div>
         }
       </div>
@@ -146,3 +154,5 @@ export const Record = ({ recordContent, ip, site}) => {
   )
 
 }
+
+export default SiteRecord
