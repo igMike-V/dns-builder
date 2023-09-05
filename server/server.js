@@ -30,28 +30,25 @@ Routers.forEach(({ endpoint, router }) => {
 /* Final middleware for errors */
 //app.use(ErrorHandler)
 
-const start = async () => {
-  const maxRetries = 5
-  const retryDelay = 5000
-  await connectToDatabase(maxRetries, retryDelay) 
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`)
-    console.log(`http://localhost:${PORT}`)
-    console.log(`FRONTEND: ${FRONTEND_URL}`)
-  })
-}
-
-start()
-
+//dealing with first run and adding a demo user
 const { User } = require("./models")
 const bcrypt = require('bcrypt')
 
-const getNumberOfuser = async () => { 
+const getNumberOfuser = async () => {
   const user = await User.findAndCountAll()
-  console.log(user.count)
   return user.count
 }
-const numUsers = getNumberOfuser()
+
+const firstRun =  async () => {
+  const numUsers = await getNumberOfuser()
+  console.log('number of users: ', numUsers)
+  if (numUsers === 0) {
+    console.log('Creating Demo User')
+    createDemoUser()
+  } else {
+    console.log('Demo user exists')
+  }
+}
 
 const createDemoUser = async () => {
   console.log(`Creating Default user (demouser)`);
@@ -62,6 +59,19 @@ const createDemoUser = async () => {
   })
 }
 
-if (numUsers === 0) {
-  createDemoUser()
+
+
+// Get it started!
+const start = async () => {
+  const maxRetries = 5
+  const retryDelay = 5000
+  await connectToDatabase(maxRetries, retryDelay)
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+    console.log(`http://localhost:${PORT}`)
+    console.log(`FRONTEND: ${FRONTEND_URL}`)
+  })
+  firstRun()
 }
+
+start()
