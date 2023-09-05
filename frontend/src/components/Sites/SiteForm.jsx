@@ -137,6 +137,7 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
     }
 
     const siteRecord = await siteService.addRecord(siteId, record.value)
+    console.log(siteRecord)
     setSites(prevSites => {
       return prevSites.map(site => {
         if (site.id === siteId) {
@@ -239,6 +240,7 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
     }
   }
 
+  console.log(site)
   return (
     <>
     <h1>{site ? `Edit Site: "${site.name} (${site.domain})"` : "Add a site" }</h1>
