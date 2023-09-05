@@ -11,7 +11,6 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
     if (s.id === editSite) return s
   }) : null
 
-  console.log(site)
   const formInitialState = {
     name: {
       name: 'name',
@@ -251,7 +250,7 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
         <div className='flex flex-col gap-2 pb-8'>
           {records && 
           <div>
-            <div className='flex flex-row justify-start items-center gap-2 py-1'>
+            <div className='flex flex-row items-center justify-start gap-2 py-1'>
             <h2>Records</h2>
             {showRecordForm ?
             <HiMinusCircle
@@ -266,7 +265,7 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
             }
             </div>
             {showRecordForm &&
-            <div className='flex flex-row justify-start items-center gap-2'>
+            <div className='flex flex-row items-center justify-start gap-2'>
               <Select 
                 control={recordInputs.record}
                 options={

@@ -110,7 +110,6 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
         }
       }
     })
-    console.log(inputs)
   }
 
   const handleCancel = (e) => {
@@ -163,7 +162,6 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
           validator.setInvalid(setInputs, field, 'error with number input, check your entry and try again')
         }
       }
-      console.log(field, inputs[field].value)
       if (field === 'recordTypeId' && inputs[field].value === '0') {
         valid = false
         validator.setInvalid(setInputs, field, `${inputs[field].label} is required`)

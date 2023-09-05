@@ -53,7 +53,6 @@ export const Record = ({ recordContent, ip, site}) => {
             // Extract the A records from the DNS response
             
             const aRecords = data.Answer
-            console.log(aRecords[0])
             const rec = aRecords[0]
             if (rec.data.replace(/\.$/, '') === compareString) {
               setConnection(1)
@@ -79,27 +78,27 @@ export const Record = ({ recordContent, ip, site}) => {
   }, [])
   
   return (
-    <div className='bg-gray-100 mb-8 p-4 rounded-lg max-w-4xl' >
-      <div className='flex align-middle gap-2 items-center mb-4'>
+    <div className='max-w-4xl p-4 mb-8 bg-gray-100 rounded-lg' >
+      <div className='flex items-center gap-2 mb-4 align-middle'>
         <h2 className='font-bold'>
           {name}
         </h2>
         <ToolTip tip={description}>
-          <div className='text-center bg-gray-600 hover:bg-pink-600 cursor-pointer rounded-full w-6 h-6 text-white flex justify-center'>?</div>
+          <div className='flex justify-center w-6 h-6 text-center text-white bg-gray-600 rounded-full cursor-pointer hover:bg-pink-600'>?</div>
         </ToolTip>
         {connectString &&
           <div className='flex items-center gap-2'>
             <span>Status: </span>
             {connection > 0
-              ? <BsFillCloudCheckFill className='text-green-500 text-2xl' />
+              ? <BsFillCloudCheckFill className='text-2xl text-green-500' />
               : <BsCloudSlash className={`${connection === -1 ? 'text-red-600' : 'text-grey-500'} text-2xl`} />
             }
-            {connectMessage && <span className='text-green-700 text-xs'>{connectMessage}</span>}
+            {connectMessage && <span className='text-xs text-green-700'>{connectMessage}</span>}
           </div>
         }
       </div>
 
-      <div className="flex align-middle justify-start gap-5">
+      <div className="flex justify-start gap-5 align-middle">
         <div className="">
           Record type: <span className='font-bold'>{type}</span>
         </div>
@@ -109,38 +108,38 @@ export const Record = ({ recordContent, ip, site}) => {
       </div>
 
       <div
-        className="flex gap-3 justify-start items-center p-4 mt-5 bg-gray-400 rounded-lg cursor-pointer group"
+        className="flex items-center justify-start gap-3 p-4 mt-5 bg-gray-400 rounded-lg cursor-pointer group"
         id={`host-${id}`}
         onClick={() => copyContent(hostName, 'host')}
       >
-        <div className="font-normal text-white text-2xl px-3 w-20">
+        <div className="w-20 px-3 text-2xl font-normal text-white">
           Host
         </div>        
-        <div className="bg-gray-50  group-hover:bg-teal-300 rounded-lg p-7 grow items-center relative">
-          <div className='opacity-0 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 width rounded-lg bg-opacity-75 bg-white px-20 py-4 align-middle my-auto mx-auto'>{copyMessages.host ? 'Copied to clipboard' : 'Copy'}</div>
-          <p className='break-all z-0'>{hostName}</p>
+        <div className="relative items-center rounded-lg bg-gray-50 group-hover:bg-teal-300 p-7 grow">
+          <div className='absolute z-10 px-20 py-4 mx-auto my-auto align-middle transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-75 rounded-lg opacity-0 group-hover:opacity-100 top-1/2 left-1/2 width'>{copyMessages.host ? 'Copied to clipboard' : 'Copy'}</div>
+          <p className='z-0 break-all'>{hostName}</p>
         </div>
         {!copyMessages.host ?
           <HiOutlineClipboardCopy onClick={() => copyContent(host)} className='min-w-fit group-hover:text-teal-600' />
-          :<HiClipboardCopy className='min-w-fit text-teal-600' />
+          :<HiClipboardCopy className='text-teal-600 min-w-fit' />
         }
       </div>
 
       <div
-        className="flex gap-3 justify-start items-center p-4 mt-5 bg-gray-400 rounded-lg cursor-pointer group"
+        className="flex items-center justify-start gap-3 p-4 mt-5 bg-gray-400 rounded-lg cursor-pointer group"
         id={`value-${id}`}
         onClick={() => copyContent(value ? value : ip, 'value')}
       >
-        <div className="font-normal text-white text-2xl px-3 w-20">
+        <div className="w-20 px-3 text-2xl font-normal text-white">
           Value
         </div>        
-        <div className="bg-gray-50  group-hover:bg-teal-300 rounded-lg p-7 grow items-center relative">
-          <div className='opacity-0 group-hover:opacity-100 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 width rounded-lg bg-opacity-75 bg-white px-20 py-4 align-middle my-auto mx-auto'>{copyMessages.value ? 'Copied to clipboard' : 'Copy'}</div>
-          <p className='break-all z-0'>{value ? value : ip}</p>
+        <div className="relative items-center rounded-lg bg-gray-50 group-hover:bg-teal-300 p-7 grow">
+          <div className='absolute z-10 px-20 py-4 mx-auto my-auto align-middle transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-75 rounded-lg opacity-0 group-hover:opacity-100 top-1/2 left-1/2 width'>{copyMessages.value ? 'Copied to clipboard' : 'Copy'}</div>
+          <p className='z-0 break-all'>{value ? value : ip}</p>
         </div>
         {!copyMessages.value ?
           <HiOutlineClipboardCopy onClick={() => copyContent(value)} className='min-w-fit group-hover:text-teal-600' />
-          :<HiClipboardCopy className='min-w-fit text-teal-600' />
+          :<HiClipboardCopy className='text-teal-600 min-w-fit' />
         }
       </div>
     </div>

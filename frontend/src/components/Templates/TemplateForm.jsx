@@ -4,8 +4,6 @@ import templateService from '../../services/templateService'
 
 const TemplateForm = ({setShowAddForm, setUpdateTemplates, editTemplate, setEditTemplate}) => {
 
-  if (editTemplate) console.log('editTemplate', editTemplate)
-
   const [inputs, setInputs] = useState({
     name: {
       value: editTemplate? editTemplate.name : '',
@@ -77,15 +75,15 @@ const TemplateForm = ({setShowAddForm, setUpdateTemplates, editTemplate, setEdit
     <>
     <h2>Add a template</h2>
       <form className='w-full pt-7'>
-        <div className="md:items-center mb-6">
+        <div className="mb-6 md:items-center">
           <div className="">
-            <label className="block text-gray-500 font-bold mb-1 md:mb-0 pr-4" >
+            <label className="block pr-4 mb-1 font-bold text-gray-500 md:mb-0" >
               Template Name
             </label>
           </div>
           <div className="" >
             <input
-              className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-teal-500"
+              className="w-full px-4 py-2 leading-tight text-gray-700 bg-gray-200 border-2 border-gray-200 rounded appearance-none focus:outline-none focus:bg-white focus:border-teal-500"
                 type="text" name="name" value={inputs.name.value} onChange={(e) => handleChange(e)}
             />
             { inputs.name.error && <p className='text-red-700'>{inputs.name.errorMessage}</p> }
@@ -93,13 +91,13 @@ const TemplateForm = ({setShowAddForm, setUpdateTemplates, editTemplate, setEdit
         </div>
         <div className='flex gap-2 pb-8'>
           <button 
-            className="shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" 
+            className="px-4 py-2 font-bold text-white bg-teal-600 rounded shadow hover:bg-teal-400 focus:shadow-outline focus:outline-none" 
             onClick={(e) => handleClick(e)}
           >
             {editTemplate ? "Edit Template" : "Add template"}
           </button>
           <button 
-            className="shadow bg-orange-600 hover:bg-orange-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" 
+            className="px-4 py-2 font-bold text-white bg-orange-600 rounded shadow hover:bg-orange-400 focus:shadow-outline focus:outline-none" 
             onClick={(e) => handleCancel(e)}
           >
             Cancel
