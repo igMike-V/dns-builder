@@ -127,9 +127,9 @@ Navigate to the "frontend" directory
 - [✔️] Store data to a database
 - [✔️] form validation
 - [✔️] Custom records per domain
-- [ ] Public facing page that retrieves the site with records
-- [ ] add estimation of TTL and testing of dns
-- [ ] DNS LOOKUPS
+- [✔️] Public facing page that retrieves the site with records
+- [✔️] add estimation of TTL and testing of dns A records
+- [ ] DNS LOOKUPS (additional lookups)
 - [ ] User management
 - [ ] SPF builder (for clients with multiple SPF records)
 - [ ] connect registrar APIs for one-click updates.
