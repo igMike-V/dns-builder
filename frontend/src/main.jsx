@@ -13,6 +13,7 @@ import { ErrorPage } from './components/ErrorPage'
 import Sites from './components/Sites'
 import Records from './components/Records'
 import SingleSite from './components/SingleSite'
+import Home from './components/Home'
 
 
 
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <Navigate to="/sites" replace />,
+        element: <Home />,
       },
       {
         path: 'sites',
