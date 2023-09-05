@@ -6,6 +6,7 @@ import { useConfirm } from '../shared/ConfirmContext'
 import { HiPencilAlt, HiClipboardCopy, HiOutlineTrash } from 'react-icons/hi'
 import SiteForm from './SiteForm'
 import styles from '../styles'
+import { FRONTEND_URL } from '../../utilities/settings'
 
 const Sites = () => {
   const { isConfirmed } = useConfirm()
@@ -59,10 +60,7 @@ const Sites = () => {
 
   //TODO - move to utilities
   const getSiteLink = (domain) => {
-    //TODO - get set address in config
-    //TODO - ensure dmain has no underscore
-    //https://stackoverflow.com/questions/4938900/how-to-encode-periods-for-urls-in-javascript
-    return `http://localhost:5173/site/${domain.replace('.','_')}`
+    return `${FRONTEND_URL}/site/${domain.replace('.','_')}`
   }
 
   return (
