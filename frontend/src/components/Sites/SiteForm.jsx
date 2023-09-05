@@ -136,6 +136,7 @@ const SiteForm = ({setShowAddForm, setUpdateSites, editSite, setEditSite, sites,
       })
     }
 
+    console.log('RECORD: ', record)
     console.log('SITE ID FOR AXIOS: ', siteId)
     console.log('RECORD ID FOR AXIOS: ', record.value)
 
