@@ -21,7 +21,19 @@ export const SingleSite = () => {
   }, [])
 
   if (!siteData) {
-    return <div>Loading...</div>
+    return (
+      <section className="flex flex-col ">
+        <Header />
+        <div className="p-4 mb-8 bg-gray-100 rounded-lg">
+          <h1 className="text-2xl font-bold">Loading...</h1>
+          <h3 className="text-xl font-bold">
+            If the page is loading for an extended period of time check your url
+            or ask the person who provided the url to check that it is still
+            valid.
+          </h3>
+        </div>
+      </section>
+    )
   }
 
   return (
