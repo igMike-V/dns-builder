@@ -2,7 +2,7 @@
 
 # DNS Record Helper
 
-#### Video Demo: https://youtu.be/WzDqM3xtUbQ
+#### Video Demo: https://youtu.be/JBbR-F57McE
 
 #### Description
 
