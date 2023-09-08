@@ -4,48 +4,51 @@ const isText = (str, fieldName = 'field', minLen = 0, maxLen = null) => {
     valid: true,
     message: ''
   }
-    if (typeof str !== 'string') {
-      isValid.valid = false  
-      isValid.message = `Invalid input type`
-    }
-    if (minLen && str.length < minLen) {
-      isValid.valid = false  
-      isValid.message = `${fieldName} must be at least ${minLen} characters long`
-    }
-    if (maxLen && str.length > maxLen) {
-      isValid.valid = false  
-      isValid.message = `${fieldName} must be at less then ${maxLen} characters long`
-    }
-    return isValid
+  if (typeof str !== 'string') {
+    isValid.valid = false
+    isValid.message = `Invalid input type`
+  }
+  if (minLen && str.length < minLen) {
+    isValid.valid = false
+    isValid.message = `${fieldName} must be at least ${minLen} characters long`
+  }
+  if (maxLen && str.length > maxLen) {
+    isValid.valid = false
+    isValid.message = `${fieldName} must be at less then ${maxLen} characters long`
+  }
+  return isValid
 }
 
 const isNumber = (num, fieldName = 'field', min = 0, max = null) => {
-    const isValid = {
-        valid: true,
-        message: ''
-    }
-    if (typeof num !== 'number') {
-        isValid.valid = false
-        isValid.message = `Invalid input type`
-    }
-    if (min && num < min) {
-        isValid.valid = false
-        isValid.message = `${fieldName} must be at least ${min}`
-    }
-    if (max && num > max) {
-        isValid.valid = false
-        isValid.message = `${fieldName} must be at less then ${max}`
-    }
-    return isValid
+  const isValid = {
+    valid: true,
+    message: ''
+  }
+  if (typeof num !== 'number') {
+    isValid.valid = false
+    isValid.message = `Invalid input type`
+  }
+  if (min && num < min) {
+    isValid.valid = false
+    isValid.message = `${fieldName} must be at least ${min}`
+  }
+  if (max && num > max) {
+    isValid.valid = false
+    isValid.message = `${fieldName} must be at less then ${max}`
+  }
+  return isValid
 }
-
 
 const isDomain = (domain, fieldName = field) => {
   const isValid = {
     valid: true,
     message: ''
   }
-  if (domain.match(/^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/)) {
+  if (
+    domain.match(
+      /^([a-zA-Z0-9]([a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,}$/
+    )
+  ) {
     return isValid
   } else {
     isValid.valid = false
@@ -59,7 +62,8 @@ const isIp = (ip, fieldName = field) => {
     valid: true,
     message: ''
   }
-  const ipPattern = /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/;
+  const ipPattern =
+    /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/
   if (ip.match(ipPattern)) {
     return isValid
   } else {
@@ -69,10 +73,9 @@ const isIp = (ip, fieldName = field) => {
   }
 }
 
-
 const setInvalid = (setInputs, field, message) => {
   // setInputs is a passed state setter function
-  setInputs(prevInputs => {
+  setInputs((prevInputs) => {
     return {
       ...prevInputs,
       [field]: {
@@ -86,7 +89,7 @@ const setInvalid = (setInputs, field, message) => {
 
 export default {
   isText,
-  isNumber, 
+  isNumber,
   isDomain,
   setInvalid,
   isIp

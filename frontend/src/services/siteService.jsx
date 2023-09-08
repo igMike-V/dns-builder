@@ -50,12 +50,14 @@ const deleteSite = async (id) => {
 
 const addRecord = async (siteId, recordId) => {
   try {
-    const req = await axios.post(`${baseUrl}/site-records/`, { siteId, recordId })
+    const req = await axios.post(`${baseUrl}/site-records/`, {
+      siteId,
+      recordId
+    })
     return req.data
   } catch (err) {
-    if(err.response.data.error) console.error(err.response.data.error)
-    else
-    console.error(err)
+    if (err.response.data.error) console.error(err.response.data.error)
+    else console.error(err)
   }
 }
 
@@ -68,4 +70,12 @@ const removeRecord = async (siteRecordId) => {
   }
 }
 
-export default { getSites, getSite, addSite, updateSite, deleteSite, addRecord, removeRecord }
+export default {
+  getSites,
+  getSite,
+  addSite,
+  updateSite,
+  deleteSite,
+  addRecord,
+  removeRecord
+}

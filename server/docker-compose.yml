@@ -10,7 +10,7 @@ services:
       MARIADB_DATABASE: dns-helper
       MARIADB_USER: user
       MARIADB_PASSWORD: password
-    volumes: 
+    volumes:
       - data:/var/lib/mysql
     ports:
       - 3306:3306

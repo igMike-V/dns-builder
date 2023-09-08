@@ -12,10 +12,12 @@ const { connectToDatabase } = require('./util/db')
 /* Import routers object from controllers/index.js */
 const Routers = require('./controllers/')
 
-app.use(cors({
-  origin: FRONTEND_URL, 
-  credentials: true
-}))
+app.use(
+  cors({
+    origin: FRONTEND_URL,
+    credentials: true
+  })
+)
 
 app.use(express.json())
 app.use(bodyParser.json())
@@ -35,7 +37,7 @@ Routers.forEach(({ endpoint, router, middleware }) => {
 //app.use(ErrorHandler)
 
 //dealing with first run and adding a demo user
-const { User } = require("./models")
+const { User } = require('./models')
 const bcrypt = require('bcrypt')
 
 const getNumberOfuser = async () => {
@@ -43,7 +45,7 @@ const getNumberOfuser = async () => {
   return user.count
 }
 
-const firstRun =  async () => {
+const firstRun = async () => {
   const numUsers = await getNumberOfuser()
   console.log('number of users: ', numUsers)
   if (numUsers === 0) {
@@ -55,15 +57,13 @@ const firstRun =  async () => {
 }
 
 const createDemoUser = async () => {
-  console.log(`Creating Default user (demouser)`);
+  console.log(`Creating Default user (demouser)`)
   await User.create({
     name: 'demouser',
     email: 'demo@demo.com',
     password: await bcrypt.hash('demopassword', 10)
   })
 }
-
-
 
 // Get it started!
 const start = async () => {

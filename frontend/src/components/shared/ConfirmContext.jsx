@@ -3,7 +3,7 @@ import { createContext, useState, useContext } from 'react'
 const ConfirmContext = createContext()
 
 const useConfirm = () => {
-  const [ confirm, setConfirm ] = useContext(ConfirmContext)
+  const [confirm, setConfirm] = useContext(ConfirmContext)
 
   const isConfirmed = (heading, message) => {
     return new Promise((resolve, reject) => {
@@ -12,14 +12,14 @@ const useConfirm = () => {
         message,
         isOpen: true,
         proceed: () => {
-          setConfirm({...confirm, isOpen: false})
+          setConfirm({ ...confirm, isOpen: false })
           resolve(true)
         },
         cancel: () => {
-          setConfirm({...confirm, isOpen: false})
+          setConfirm({ ...confirm, isOpen: false })
           resolve(false)
-          reject("user cancelled")
-        },
+          reject('user cancelled')
+        }
       })
     })
   }
@@ -31,17 +31,17 @@ const useConfirm = () => {
 }
 
 const ConfirmContextProvider = ({ children }) => {
-  const [ confirm, setConfirm ] = useState({
+  const [confirm, setConfirm] = useState({
     heading: '',
     isOpen: false,
     proceed: null,
     cancel: null
   })
   return (
-    <ConfirmContext.Provider value={[ confirm, setConfirm ]}>
+    <ConfirmContext.Provider value={[confirm, setConfirm]}>
       {children}
     </ConfirmContext.Provider>
   )
 }
 
-export {ConfirmContextProvider, ConfirmContext, useConfirm}
+export { ConfirmContextProvider, ConfirmContext, useConfirm }

@@ -8,5 +8,9 @@ module.exports = {
   DB_PASSWORD: process.env.DB_PASSWORD,
   PORT: process.env.PORT || 3000,
   NODE_ENV: process.env.NODE_ENV,
-  FRONTEND_URL: [process.env.FRONTEND_URL,  'http://127.0.0.1:5173','http://localhost:5173'],
+  FRONTEND_URL: [
+    process.env.FRONTEND_URL,
+    'http://127.0.0.1:5173',
+    'http://localhost:5173'
+  ]
 }

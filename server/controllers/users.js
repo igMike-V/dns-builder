@@ -1,4 +1,4 @@
-const { User } = require("../models")
+const { User } = require('../models')
 const router = require('express').Router()
 const bcrypt = require('bcrypt')
 
@@ -12,7 +12,7 @@ router.get('/', async (_req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  try {  
+  try {
     const { password } = req.body
     const saltRounds = 10
     const hashedPassword = await bcrypt.hash(password, saltRounds)
@@ -36,7 +36,7 @@ router.put('/:id', async (req, res) => {
     res.json(user)
   } catch (err) {
     console.log(err.message)
-  } 
+  }
 })
 
 module.exports = router

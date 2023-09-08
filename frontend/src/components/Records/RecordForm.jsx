@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import recordService from '../../services/recordService'
-import {Text, Select} from '../shared/Forms'
+import { Text, Select } from '../shared/Forms'
 import recordTypeService from '../../services/recordTypeService'
 import styles from '../styles'
 import validator from '../shared/Forms/validator'
@@ -15,8 +15,7 @@ const recordFormInitialState = (recordForEdit) => {
       validator: 'isText',
       min: 2,
       error: false,
-      errorMessage: '',
-
+      errorMessage: ''
     },
     description: {
       name: 'description',
@@ -25,8 +24,7 @@ const recordFormInitialState = (recordForEdit) => {
       required: false,
       validator: 'isText',
       error: false,
-      errorMessage: '',
-
+      errorMessage: ''
     },
     lookupString: {
       name: 'lookupString',
@@ -35,8 +33,7 @@ const recordFormInitialState = (recordForEdit) => {
       required: false,
       validator: 'isText',
       error: false,
-      errorMessage: '',
-
+      errorMessage: ''
     },
     hostName: {
       name: 'hostName',
@@ -45,8 +42,7 @@ const recordFormInitialState = (recordForEdit) => {
       required: false,
       validator: 'isText',
       error: false,
-      errorMessage: '',
-
+      errorMessage: ''
     },
     value: {
       name: 'value',
@@ -55,8 +51,7 @@ const recordFormInitialState = (recordForEdit) => {
       required: true,
       error: false,
       validator: 'isText',
-      errorMessage: '',
-
+      errorMessage: ''
     },
     ttl: {
       name: 'ttl',
@@ -65,8 +60,7 @@ const recordFormInitialState = (recordForEdit) => {
       required: true,
       error: false,
       validator: 'isNumber',
-      errorMessage: '',
-
+      errorMessage: ''
     },
     recordTypeId: {
       name: 'recordTypeId',
@@ -74,14 +68,20 @@ const recordFormInitialState = (recordForEdit) => {
       value: recordForEdit ? recordForEdit.recordType.id : '0',
       required: true,
       error: false,
-      errorMessage: '',
+      errorMessage: ''
     }
   }
 }
 
-
-const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord, records, setRecords}) => {
-  const recordForEdit= records.find(record => record.id === editRecord)
+const RecordForm = ({
+  setShowAddForm,
+  setUpdateRecords,
+  editRecord,
+  setEditRecord,
+  records,
+  setRecords
+}) => {
+  const recordForEdit = records.find((record) => record.id === editRecord)
   const [inputs, setInputs] = useState(recordFormInitialState(recordForEdit))
 
   const [recordTypes, setRecordTypes] = useState([])
@@ -94,12 +94,11 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     getRecordTypes()
     setInputs(recordFormInitialState(recordForEdit))
   }, [recordForEdit])
-  
 
   const handleChange = (e) => {
     const targetField = e.target.name
     const targetValue = e.target.value
-    setInputs(prevInputs =>  {
+    setInputs((prevInputs) => {
       return {
         ...prevInputs,
         [targetField]: {
@@ -118,7 +117,6 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     setShowAddForm(false)
   }
 
-
   const handleClick = async (e) => {
     e.preventDefault()
     let valid = true
@@ -126,112 +124,140 @@ const RecordForm = ({setShowAddForm, setUpdateRecords, editRecord, setEditRecord
     for (const field in inputs) {
       if (inputs[field].required && !inputs[field].value) {
         valid = false
-        validator.setInvalid(setInputs, field, `${inputs[field].label} is required`)
+        validator.setInvalid(
+          setInputs,
+          field,
+          `${inputs[field].label} is required`
+        )
       }
       if (inputs[field].validator && inputs[field].validator === 'isText') {
-        try{
+        try {
           const isValid = validator.isText(
             inputs[field].value,
-            inputs[field].label, 
-            inputs[field].min? inputs[field].min : undefined,
-            inputs[field].max? inputs[field].max : undefined
-            )
+            inputs[field].label,
+            inputs[field].min ? inputs[field].min : undefined,
+            inputs[field].max ? inputs[field].max : undefined
+          )
           if (isValid.valid === false) {
             valid = false
-            validator.setInvalid(setInputs, field, isValid.message? isValid.message : `${inputs[field].label} is invalid`)
-          }  
+            validator.setInvalid(
+              setInputs,
+              field,
+              isValid.message
+                ? isValid.message
+                : `${inputs[field].label} is invalid`
+            )
+          }
         } catch (err) {
           valid = false
-          validator.setInvalid(setInputs, field, 'error with text input, check your entry and try again')
+          validator.setInvalid(
+            setInputs,
+            field,
+            'error with text input, check your entry and try again'
+          )
         }
       }
       if (inputs[field].validator && inputs[field].validator === 'isNumber') {
-        try{
+        try {
           const isValid = validator.isNumber(
             inputs[field].value,
-            inputs[field].label, 
-            inputs[field].min? inputs[field].min : undefined,
-            inputs[field].max? inputs[field].max : undefined
-            )
+            inputs[field].label,
+            inputs[field].min ? inputs[field].min : undefined,
+            inputs[field].max ? inputs[field].max : undefined
+          )
           if (isValid.valid === false) {
             valid = false
-            validator.setInvalid(setInputs, field, isValid.message? isValid.message : `${inputs[field].label} is invalid`)
-          }  
+            validator.setInvalid(
+              setInputs,
+              field,
+              isValid.message
+                ? isValid.message
+                : `${inputs[field].label} is invalid`
+            )
+          }
         } catch (err) {
           valid = false
-          validator.setInvalid(setInputs, field, 'error with number input, check your entry and try again')
+          validator.setInvalid(
+            setInputs,
+            field,
+            'error with number input, check your entry and try again'
+          )
         }
       }
       if (field === 'recordTypeId' && inputs[field].value === '0') {
         valid = false
-        validator.setInvalid(setInputs, field, `${inputs[field].label} is required`)
+        validator.setInvalid(
+          setInputs,
+          field,
+          `${inputs[field].label} is required`
+        )
       }
-    }    
-    
+    }
+
     if (valid) {
       /* Record inputs are valid lets submit */
       const record = {}
-      for( const field in inputs ) {
+      for (const field in inputs) {
         record[field] = inputs[field].value
       }
 
       /* Check if the form is in update or new record mode */
-      if(recordForEdit) {
+      if (recordForEdit) {
         await recordService.update(recordForEdit.id, record)
       } else {
         await recordService.add(record)
       }
       setEditRecord(null)
-      setUpdateRecords(prev => prev + 1)
+      setUpdateRecords((prev) => prev + 1)
       setShowAddForm(false)
     }
   }
- 
 
   const validateName = (text) => {
-    if (text.length > 3) return true 
+    if (text.length > 3) return true
     return false
   }
 
-
   return (
     <>
-    <h1>{recordForEdit ? `Edit "${recordForEdit.recordType.name}" record: ${recordForEdit.name}` : "Add a record" }</h1>
-      <form className='w-full pt-7'>
-        <Select control={inputs.recordTypeId}
-          options={
-            recordTypes.map(type => {
-              return {
-                value: type.id,
-                label: type.name
-              }
-            })
-          }
+      <h1>
+        {recordForEdit
+          ? `Edit "${recordForEdit.recordType.name}" record: ${recordForEdit.name}`
+          : 'Add a record'}
+      </h1>
+      <form className="w-full pt-7">
+        <Select
+          control={inputs.recordTypeId}
+          options={recordTypes.map((type) => {
+            return {
+              value: type.id,
+              label: type.name
+            }
+          })}
           onChange={handleChange}
         />
         <Text control={inputs.name} onChange={handleChange} />
         <Text control={inputs.description} onChange={handleChange} />
-        <Text control={inputs.lookupString} onChange={handleChange} />  
+        <Text control={inputs.lookupString} onChange={handleChange} />
         <Text control={inputs.hostName} onChange={handleChange} />
         <Text control={inputs.value} onChange={handleChange} />
         <Text control={inputs.ttl} onChange={handleChange} />
-        
-        <div className='flex gap-2 pb-8'>
-          <button 
-            className={styles.buttons.primary} 
+
+        <div className="flex gap-2 pb-8">
+          <button
+            className={styles.buttons.primary}
             onClick={(e) => handleClick(e)}
           >
-            {recordForEdit? "Update Record" : "Add Record"}
+            {recordForEdit ? 'Update Record' : 'Add Record'}
           </button>
-          <button 
-            className={styles.buttons.cancel} 
+          <button
+            className={styles.buttons.cancel}
             onClick={(e) => handleCancel(e)}
           >
             Cancel
           </button>
         </div>
-        <hr className='py-8' />
-        
+        <hr className="py-8" />
       </form>
     </>
   )

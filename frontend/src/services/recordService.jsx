@@ -1,5 +1,5 @@
-import axios from "./axios";
-import { API_URL } from "../utilities/settings"
+import axios from './axios'
+import { API_URL } from '../utilities/settings'
 
 const baseUrl = `${API_URL}/api`
 
@@ -27,7 +27,7 @@ const update = async (id, record) => {
     return req.data
   } catch (err) {
     console.error(err.response.data.error)
-  } 
+  }
 }
 
 const remove = async (id) => {
@@ -37,6 +37,6 @@ const remove = async (id) => {
   } catch (err) {
     console.error(err.response.data.error)
   }
-} 
+}
 
 export default { get, add, update, remove }

@@ -1,4 +1,4 @@
-const { Session, User } = require("../models")
+const { Session, User } = require('../models')
 
 const createSession = async (userId) => {
   const session = await Session.create({ userId })
@@ -7,7 +7,7 @@ const createSession = async (userId) => {
 
 const getSession = async (sid) => {
   try {
-    const session = await Session.findByPk(sid, { 
+    const session = await Session.findByPk(sid, {
       attributes: ['sid', 'expires'],
       include: {
         model: User,
@@ -19,7 +19,6 @@ const getSession = async (sid) => {
     console.log(error)
     return null
   }
-  
 }
 
 const deleteSession = async (sid) => {

@@ -5,7 +5,7 @@ const baseUrl = `${API_URL}/api`
 
 const axiosAuth = axios.create({
   baseURL: baseUrl,
-  withCredentials: true, 
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
     'Access-Control-Allow-Origin': API_URL,

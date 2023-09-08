@@ -1,20 +1,20 @@
-const { SiteTemplate } = require('../models');
-const router = require('express').Router();
+const { SiteTemplate } = require('../models')
+const router = require('express').Router()
 
-const SessionExtractor = require('../middleware/SessionExtractor');
+const SessionExtractor = require('../middleware/SessionExtractor')
 
 router.post('/', SessionExtractor, async (req, res) => {
-  const body = req.body;
+  const body = req.body
 
   try {
     const siteTemplate = await SiteTemplate.create({
       ...body
-    });
+    })
 
-    res.status(200).json(siteTemplate);
+    res.status(200).json(siteTemplate)
   } catch (err) {
-    res.status(400).json({errors: err.message});
+    res.status(400).json({ errors: err.message })
   }
 })
 
-module.exports = router;
+module.exports = router

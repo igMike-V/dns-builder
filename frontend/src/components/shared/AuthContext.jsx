@@ -7,16 +7,14 @@ const useAuth = () => {
 
 const AuthContext = createContext()
 
-const AuthContextConsumer = ({children}) => {
-  return (
-    <AuthContext.Consumer>{children}</AuthContext.Consumer>
-  )
+const AuthContextConsumer = ({ children }) => {
+  return <AuthContext.Consumer>{children}</AuthContext.Consumer>
 }
 
 const AuthContextProvider = ({ children }) => {
-  const [ user, setUser ] = useState(null)
-  const [ isLoggedIn, setIsLoggedIn ] = useState(false)
-  const [ loading, setLoading ] = useState(true)
+  const [user, setUser] = useState(null)
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     const getUser = async () => {
@@ -30,18 +28,21 @@ const AuthContextProvider = ({ children }) => {
         setIsLoggedIn(false)
         setLoading(false)
       }
-      
     }
 
     getUser()
+  }, [])
 
-  },[])
+  const value = {
+    user,
+    setUser,
+    isLoggedIn,
+    setIsLoggedIn,
+    loading,
+    setLoading
+  }
 
-  const value = { user, setUser, isLoggedIn, setIsLoggedIn, loading, setLoading }
-  
-  return (
-    <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-  )
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
 
 export { AuthContextProvider, AuthContextConsumer, useAuth }

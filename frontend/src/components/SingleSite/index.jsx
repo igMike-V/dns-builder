@@ -1,27 +1,29 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import siteService from "../../services/siteService";
-import styles from "../styles";
-import Header from "../Header";
-import SiteRecord from "./SiteRecord";
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import siteService from '../../services/siteService'
+import styles from '../styles'
+import Header from '../Header'
+import SiteRecord from './SiteRecord'
 
 export const SingleSite = () => {
-  const [siteData, setSiteData] = useState(null);
-  const { url } = useParams();
+  const [siteData, setSiteData] = useState(null)
+  const { url } = useParams()
 
   useEffect(() => {
     //TODO - get site data
     const fetchSiteData = async () => {
-      console.log(url);
-      const getSiteData = await siteService.getSite(url);
-      if (getSiteData) setSiteData(getSiteData);
-      console.log(getSiteData);
-    };
-    fetchSiteData();
-  }, []);
+      console.log(url)
+      const getSiteData = await siteService.getSite(url)
+      if (getSiteData) setSiteData(getSiteData)
+      console.log(getSiteData)
+    }
+    fetchSiteData()
+  }, [])
 
-  console.log(siteData);
-  if (!siteData) return <div>Loading...</div>;
+  if (!siteData) {
+    return <div>Loading...</div>
+  }
+
   return (
     <section className="flex flex-col ">
       <Header />
@@ -44,7 +46,7 @@ export const SingleSite = () => {
         </section>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default SingleSite;
+export default SingleSite
