@@ -92,7 +92,7 @@ const SiteRecord = ({ siteRecord, ip, site }) => {
   console.log(connection)
 
   return (
-    <div className="max-w-4xl pt-4 mb-8 bg-gray-100 rounded-lg">
+    <div className="pt-4 mb-8 bg-gray-100 rounded-lg">
       <div className="flex flex-col gap-2 mb-4 sm:items-center sm:align-middle sm:flex-row">
         <div className='flex flex-row items-center gap-2'>
         <h2 className="font-bold">{name}</h2>
