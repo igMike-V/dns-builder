@@ -39,10 +39,10 @@ export const SingleSite = () => {
   return (
     <section className="flex flex-col ">
       <Header />
-      <div className="p-4 mb-8 bg-gray-100 rounded-lg">
+      <div className="mb-8 bg-gray-100 rounded-lg sm:p-4">
         <div className="flex flex-col gap-2 mb-4"></div>
-        <section className="px-8 sm:px-2">
-          <h1 className="mb-4 text-2xl font-bold">
+        <section className="px-2 sm:px-8">
+          <h1 className="mb-4 font-bold sm:text-2xl">
             DNS records for: {siteData.name}
           </h1>
           <h3>{siteData.domain}</h3>

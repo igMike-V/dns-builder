@@ -92,14 +92,16 @@ const SiteRecord = ({ siteRecord, ip, site }) => {
   console.log(connection)
 
   return (
-    <div className="max-w-4xl p-4 mb-8 bg-gray-100 rounded-lg">
-      <div className="flex items-center gap-2 mb-4 align-middle">
+    <div className="max-w-4xl pt-4 mb-8 bg-gray-100 rounded-lg">
+      <div className="flex flex-col gap-2 mb-4 sm:items-center sm:align-middle sm:flex-row">
+        <div className='flex flex-row items-center gap-2'>
         <h2 className="font-bold">{name}</h2>
         <ToolTip tip={description}>
           <div className="flex justify-center w-6 h-6 text-center text-white bg-gray-600 rounded-full cursor-pointer hover:bg-pink-600">
             ?
           </div>
         </ToolTip>
+        </div>
         {connection > 0 && (
           <div className="flex items-center gap-2">
             <span>Status: </span>
@@ -130,13 +132,13 @@ const SiteRecord = ({ siteRecord, ip, site }) => {
       </div>
 
       <div
-        className="flex items-center justify-start gap-3 p-4 mt-5 bg-gray-400 rounded-lg cursor-pointer group"
+        className="flex flex-col justify-start gap-3 p-2 mt-5 bg-gray-400 rounded-lg cursor-pointer sm:items-center sm:p-4 sm:flex-row group"
         id={`host-${id}`}
         onClick={() => copyContent(hostName, 'host')}
       >
         <div className="w-20 px-3 text-2xl font-normal text-white">Host</div>
         <div className="relative items-center rounded-lg bg-gray-50 group-hover:bg-teal-300 p-7 grow">
-          <div className="absolute z-10 px-20 py-4 mx-auto my-auto align-middle transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-75 rounded-lg opacity-0 group-hover:opacity-100 top-1/2 left-1/2 width">
+          <div className="absolute z-10 px-6 py-4 mx-auto my-auto align-middle transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-75 rounded-lg opacity-0 sm:px-20 group-hover:opacity-100 top-1/2 left-1/2 width">
             {copyMessages.host ? 'Copied to clipboard' : 'Copy'}
           </div>
           <p className="z-0 break-all">{hostName}</p>
@@ -144,7 +146,7 @@ const SiteRecord = ({ siteRecord, ip, site }) => {
         {!copyMessages.host ? (
           <HiOutlineClipboardCopy
             onClick={() => copyContent(host)}
-            className="min-w-fit group-hover:text-teal-600"
+            className="hidden sm:block min-w-fit group-hover:text-teal-600"
           />
         ) : (
           <HiClipboardCopy className="text-teal-600 min-w-fit" />
@@ -152,13 +154,13 @@ const SiteRecord = ({ siteRecord, ip, site }) => {
       </div>
 
       <div
-        className="flex items-center justify-start gap-3 p-4 mt-5 bg-gray-400 rounded-lg cursor-pointer group"
+        className="flex flex-col justify-start gap-3 p-2 mt-5 bg-gray-400 rounded-lg cursor-pointer sm:items-center sm:p-4 sm:flex-row group"
         id={`value-${id}`}
         onClick={() => copyContent(value ? value : ip, 'value')}
       >
         <div className="w-20 px-3 text-2xl font-normal text-white">Value</div>
         <div className="relative items-center rounded-lg bg-gray-50 group-hover:bg-teal-300 p-7 grow">
-          <div className="absolute z-10 px-20 py-4 mx-auto my-auto align-middle transform -translate-x-1/2 -translate-y-1/2 bg-white bg-opacity-75 rounded-lg opacity-0 group-hover:opacity-100 top-1/2 left-1/2 width">
+          <div className="absolute z-10 px-6 py-4 mx-auto my-auto align-middle transform -translate-y-1/2 bg-white bg-opacity-75 rounded-lg opacity-0 -translate-x-2/4 px:4 sm:px-20 group-hover:opacity-100 top-1/2 left-1/2 width">
             {copyMessages.value ? 'Copied to clipboard' : 'Copy'}
           </div>
           <p className="z-0 break-all">{value ? value : ip}</p>
@@ -166,7 +168,7 @@ const SiteRecord = ({ siteRecord, ip, site }) => {
         {!copyMessages.value ? (
           <HiOutlineClipboardCopy
             onClick={() => copyContent(value)}
-            className="min-w-fit group-hover:text-teal-600"
+            className="hidden sm:block min-w-fit group-hover:text-teal-600"
           />
         ) : (
           <HiClipboardCopy className="text-teal-600 min-w-fit" />

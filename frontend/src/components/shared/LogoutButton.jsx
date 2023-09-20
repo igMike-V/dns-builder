@@ -16,10 +16,10 @@ const LogoutButton = () => {
 
   return (
     <button
-      className="shadow bg-teal-600 hover:bg-teal-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
+      className="px-4 py-2 text-xs font-bold text-white bg-teal-600 rounded shadow hover:bg-teal-400 focus:shadow-outline focus:outline-none sm:font-normal"
       onClick={(e) => handleLogout(e)}
     >
-      Logout {auth.user && auth.user}
+      Logout
     </button>
   )
 }

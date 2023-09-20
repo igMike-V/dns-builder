@@ -19,7 +19,7 @@ const Root = () => {
     <section className="flex flex-col ">
       <ConfirmModal />
       <Header />
-      <div className="bg-gray-100 mb-8 p-4 rounded-lg">
+      <div className="mb-8 bg-gray-100 rounded-lg sm:p-4">
         <div className="flex flex-col gap-2 mb-4"></div>
         <Outlet />
       </div>
